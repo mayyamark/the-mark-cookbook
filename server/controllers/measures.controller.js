@@ -13,5 +13,15 @@ measuresController.get('/', async (req, res) => {
   res.status(200).send(measures);
 });
 
+measuresController.post('/', bodyValidator(createMeasureSchema), async (req, res) => {
+  const { measureName } = req.body;
+
+  const { measure, error } = await measuresService.createMeasure(measuresData)(measureName);
+
+  if (error === serviceErrors.DUPLICATE_RESOURCE) {
+    return res.status(409).send({ message: `Measure '${measureName}' exsists already!`});
+  }
+  res.status(200).send(measure);
+});
 
 export default measuresController;
