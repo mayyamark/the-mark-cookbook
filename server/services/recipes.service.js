@@ -28,8 +28,33 @@ const getRecipeById = (recipesData) => {
   };
 };
 
+const createRecipe = (recipesData) => {
+  return async (recipeName, category, instructions, ingredients) => {
+    const exsistingRecipe = await recipesData.getByName(recipeName);
+    if (exsistingRecipe) {
+      return {
+        error: serviceErrors.DUPLICATE_RESOURCE,
+        recipe: null,
+      };
+    }
+
+    const newRecipe = await recipesData.create(recipeName, category, instructions, ingredients);
+    if (!newRecipe) {
+      return {
+        error: serviceErrors.INSERT_FAILED,
+        recipe: null,
+      };
+    }
+
+    return {
+      recipe: newRecipe,
+      error: null,
+    };
+  };
+};
 
 export default {
   getAllRecipes,
   getRecipeById,
+  createRecipe,
 };

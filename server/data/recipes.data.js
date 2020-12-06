@@ -89,8 +89,97 @@ const getById = async (recipeID) => {
   }
 };
 
+const getByName = async (recipeName) => {
+  const recipeSql = `
+    SELECT r.recipeID AS 'recipeID', r.name AS 'recipeName', t.category, r.date AS 'addDate', r.instructions, isDeleted
+    FROM recipes r
+    JOIN categories t ON r.categoryID = t.categoryID
+    WHERE r.name = ?;
+  `;
+
+  const recipeData = await pool.query(recipeSql, [recipeName]);
+  return recipeData?.[0];
+};
+
+const create = async (recipeName, category, instructions, ingredients) => {
+  try {
+    const addDate = new Date();
+    const insertRecipeSql = `
+    INSERT INTO recipes(name, categoryID, instructions, date)
+    VALUES(?, (SELECT categoryID FROM categories WHERE category = ?), ?, ?);
+    `;
+
+    const insertRecipeData = await pool.query(insertRecipeSql, [
+      recipeName,
+      category,
+      instructions,
+      addDate,
+    ]);
+    const recipeData = {
+      recipeID: insertRecipeData.insertId,
+      recipeName,
+      category,
+      addDate,
+      instructions,
+    };
+    const ingredientsData = await Promise.all(
+      ingredients.map(async (el) => {
+        const { ingredient, measure, amount } = el;
+
+        const ingredientControlSql = `
+          SELECT ingredientID
+          FROM ingredients
+          WHERE ingredient = ?;
+      `;
+
+        const ingredientControlData = await pool.query(ingredientControlSql, [
+          ingredient,
+        ]);
+
+        let ingredientID;
+        if (ingredientControlData[0]) {
+          ingredientID = ingredientControlData[0].ingredientID;
+        } else {
+          const insertIngredientSql = `
+          INSERT INTO ingredients(ingredient)
+          VALUES(?);
+        `;
+
+          const insertIngredientData = await pool.query(insertIngredientSql, [
+            ingredient,
+          ]);
+          ingredientID = insertIngredientData.insertId;
+        }
+
+        const insertRecipeIngredientSql = `
+          INSERT INTO recipe_ingredients(recipeID, ingredientID, measureID, amount)
+          VALUES(?, ?, (SELECT measureID FROM measures WHERE measure = ?), ?);
+        `;
+
+        const insertRecipeIngredientData = await pool.query(
+          insertRecipeIngredientSql,
+          [insertRecipeData.insertId, ingredientID, measure, amount],
+        );
+        return {
+          recipeIngredientId: insertRecipeIngredientData.insertId,
+          amount,
+          measure,
+          ingredient,
+        };
+      }),
+    );
+    recipeData.ingredients = ingredientsData;
+    return recipeData;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 export default {
   getAll,
   searchBy,
   getById,
+  getByName,
+  create,
 };

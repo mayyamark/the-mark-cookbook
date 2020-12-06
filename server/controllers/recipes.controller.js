@@ -2,7 +2,8 @@ import express from 'express';
 import recipesData from '../data/recipes.data.js';
 import serviceErrors from '../services/service.errors.js';
 import recipesService from '../services/recipes.service.js';
-
+import bodyValidator from '../middlewares/body-validator.js';
+import createRecipeSchema from '../validators/create-recipe.schema.js';
 
 const recipesController = express.Router();
 
@@ -31,8 +32,31 @@ recipesController.get('/:recipeID', async (req, res) => {
   res.status(200).send(recipe);
 });
 
+recipesController.post(
+  '/',
+  bodyValidator(createRecipeSchema),
+  async (req, res) => {
+    const { recipeName, category, instructions, ingredients } = req.body;
 
+    const { error, recipe } = await recipesService.createRecipe(recipesData)(
+      recipeName,
+      category,
+      instructions,
+      ingredients,
+    );
 
+    if (error === serviceErrors.DUPLICATE_RESOURCE) {
+      return res
+        .status(400)
+        .send({
+          message: `A recipe with name '${recipeName}' exsists already!`,
+        });
+    } else if (error === serviceErrors.INSERT_FAILED) {
+      return res.status(400).send({ message: 'Insertion failed!' });
+    }
 
+    res.status(201).send(recipe);
+  },
+);
 
 export default recipesController;
