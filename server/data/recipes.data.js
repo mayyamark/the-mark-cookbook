@@ -130,7 +130,7 @@ const create = async (recipeName, category, instructions, ingredients) => {
           SELECT ingredientID
           FROM ingredients
           WHERE ingredient = ?;
-      `;
+        `;
 
         const ingredientControlData = await pool.query(ingredientControlSql, [
           ingredient,
@@ -161,7 +161,7 @@ const create = async (recipeName, category, instructions, ingredients) => {
           [insertRecipeData.insertId, ingredientID, measure, amount],
         );
         return {
-          recipeIngredientId: insertRecipeIngredientData.insertId,
+          recipeIngredientID: insertRecipeIngredientData.insertId,
           amount,
           measure,
           ingredient,
@@ -176,10 +176,111 @@ const create = async (recipeName, category, instructions, ingredients) => {
   }
 };
 
+const update = async (recipeID, recipeName, category, instructions, ingredients, isDeleted) => {
+  try {
+    if (recipeName) {
+      const updateRecipeNameSql = `
+        UPDATE recipes SET name = ?
+        WHERE recipeID = ?;
+      `;
+
+      await pool.query(updateRecipeNameSql, [recipeName, recipeID]);
+    }
+    if (category) {
+      const updateRecipeCategotySql = `
+        UPDATE recipes  SET categoryID = (SELECT categoryID FROM categories WHERE category = ?)
+        WHERE recipeID = ?;
+      `;
+
+      await pool.query(updateRecipeCategotySql, [category, recipeID]);
+    }
+    if (instructions) {
+      const updateRecipeInstructionsSql = `
+        UPDATE recipes SET instructions = ?
+        WHERE recipeID = ?;
+      `;
+
+      await pool.query(updateRecipeInstructionsSql, [instructions, recipeID]);
+    }
+    if (isDeleted === 0 || isDeleted === 1) {
+      const updateRecipeIsDeletedSql = `
+        UPDATE recipes SET isDeleted = ?
+        WHERE recipeID = ?;
+      `;
+
+      await pool.query(updateRecipeIsDeletedSql, [recipeID, isDeleted]);
+    }
+    if (ingredients) {
+      await Promise.all(
+        ingredients.map(async (el) => {
+          const { recipeIngredientID, ingredient, measure, amount } = el;
+
+          if (ingredient !== '') {
+            const ingredientControlSql = `
+              SELECT ingredientID
+              FROM ingredients
+              WHERE ingredient = ?;
+            `;
+
+            const ingredientControlData = await pool.query(ingredientControlSql, [
+              ingredient,
+            ]);
+
+            let ingredientID;
+            if (ingredientControlData[0]) {
+              ingredientID = ingredientControlData[0].ingredientID;
+            } else {
+              const insertIngredientSql = `
+                INSERT INTO ingredients(ingredient)
+                VALUES(?);
+              `;
+
+              const insertIngredientData = await pool.query(insertIngredientSql, [
+                ingredient,
+              ]);
+              ingredientID = insertIngredientData.insertId;
+            }
+
+            if (recipeIngredientID !== 0) {
+              const updateRecipeIsIngredientSql = `
+                UPDATE recipe_ingredients SET ingredientID = ?, measureID = (SELECT measureID FROM measures WHERE measure = ?), amount = ?
+                WHERE id = ?;
+              `;
+              await pool.query(updateRecipeIsIngredientSql, [ingredientID, measure, amount, recipeIngredientID]);
+
+            } else if (recipeIngredientID === 0) {
+              const insertRecipeIngredientSql = `
+                INSERT INTO recipe_ingredients(recipeID, ingredientID, measureID, amount)
+                VALUES(?, ?, (SELECT measureID FROM measures WHERE measure = ?), ?);
+              `;
+
+              await pool.query(
+                insertRecipeIngredientSql,
+                [recipeID, ingredientID, measure, amount],
+              );
+            }
+          } else if (ingredient === '') {
+            const deleteRecipeIngredientSql = `
+              DELETE FROM recipe_ingredients
+              WHERE id = ?
+            `;
+
+            await pool.query(deleteRecipeIngredientSql, [recipeIngredientID]);
+          }
+        }));
+    }
+    return await getById(recipeID);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 export default {
   getAll,
   searchBy,
   getById,
   getByName,
   create,
+  update,
 };

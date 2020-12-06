@@ -53,8 +53,33 @@ const createRecipe = (recipesData) => {
   };
 };
 
+const updateRecipe = (recipesData) => {
+  return async (recipeID, recipeName, category, instructions, ingredients, isDeleted) => {
+    const exsistingRecipe = await recipesData.getById(recipeID);
+    if (!exsistingRecipe) {
+      return {
+        error: serviceErrors.RESOURCE_NOT_FOUND,
+        recipe: null,
+      };
+    }
+
+    const updatedRecipe = await recipesData.update(recipeID, recipeName, category, instructions, ingredients, isDeleted);
+    if (!updatedRecipe) {
+      return {
+        error: serviceErrors.UPDATE_FAILED,
+        recipe: null,
+      };
+    }
+
+    return {
+      recipe: updatedRecipe,
+      error: null,
+    };
+  };
+};
 export default {
   getAllRecipes,
   getRecipeById,
   createRecipe,
+  updateRecipe,
 };

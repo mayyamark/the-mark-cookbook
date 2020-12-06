@@ -4,6 +4,7 @@ import serviceErrors from '../services/service.errors.js';
 import recipesService from '../services/recipes.service.js';
 import bodyValidator from '../middlewares/body-validator.js';
 import createRecipeSchema from '../validators/create-recipe.schema.js';
+import updateRecipeSchema from '../validators/update-recipe.schema.js';
 
 const recipesController = express.Router();
 
@@ -59,4 +60,34 @@ recipesController.post(
   },
 );
 
+recipesController.put(
+  '/:recipeID',
+  bodyValidator(updateRecipeSchema),
+  async (req, res) => {
+    const { recipeID } = req.params;
+    const { recipeName, category, instructions, ingredients, isDeleted } = req.body;
+
+    const { error, recipe } = await recipesService.updateRecipe(recipesData)(
+      recipeID,
+      recipeName,
+      category,
+      instructions,
+      ingredients,
+      isDeleted,
+    );
+
+    if (error === serviceErrors.RESOURCE_NOT_FOUND) {
+      return res
+        .status(404)
+        .send({ message: `There is no recipe with id ${recipeID}!` });
+    }
+    if (error === serviceErrors.UPDATE_FAILED) {
+      return res
+        .status(400)
+        .send({ message: 'Update failed!' });
+    }
+
+    res.status(200).send(recipe);
+  },
+);
 export default recipesController;
