@@ -52,8 +52,45 @@ const searchBy = async (
   return await pool.query(recipesSql);
 };
 
+const getById = async (recipeID) => {
+  const recipeSql = `
+      SELECT r.recipeID AS 'recipeID', r.name AS 'recipeName', t.category, r.date AS 'addDate', r.instructions, isDeleted
+      FROM recipes r
+      JOIN categories t ON r.categoryID = t.categoryID
+      WHERE r.recipeID = ?;
+  `;
+
+  const recipeData = await pool.query(recipeSql, [recipeID]);
+
+  const ingredientsSql = `
+    SELECT ri.id as recipeIngredientID, ri.amount, m.measure, i.ingredient
+    FROM recipe_ingredients ri
+    JOIN ingredients i ON i.ingredientID = ri.ingredientID
+    LEFT JOIN measures m ON m.measureID = ri.measureID
+    WHERE ri.recipeID = ?
+  `;
+
+  const ingredientsData = await pool.query(ingredientsSql, [recipeID]);
+
+  const imagesSql = `
+    SELECT imageID AS imageID, url
+    FROM images
+    WHERE recipeID = ?
+  `;
+
+  const imagesData = await pool.query(imagesSql, [recipeID]);
+
+  if (recipeData[0]) {
+    recipeData[0].ingredients = ingredientsData;
+    recipeData[0].images = imagesData;
+    return recipeData[0];
+  } else {
+    return null;
+  }
+};
 
 export default {
   getAll,
   searchBy,
+  getById,
 };
