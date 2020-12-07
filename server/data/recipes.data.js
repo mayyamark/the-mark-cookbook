@@ -10,6 +10,19 @@ const getAll = async () => {
   `;
 
   const availableRecipesData = await pool.query(availableRecipesSql);
+  const availableRecipesWithImgs = await Promise.all(availableRecipesData.map(async (recipe) => {
+    const { recipeID } = recipe;
+
+    const imagesSql = `
+      SELECT imageID AS imageID, imageName, date AS 'addDate'
+      FROM images
+      WHERE recipeID = ?
+    `;
+
+    const imagesData = await pool.query(imagesSql, [recipeID]);
+
+    return { ...recipe, images: imagesData };
+  }));
 
   const deletedRecipesSql = `
     SELECT r.recipeID AS 'recipeID', r.name AS 'recipeName', t.category, r.date AS 'addDate', isDeleted
@@ -20,8 +33,21 @@ const getAll = async () => {
   `;
 
   const deletedRecipesData = await pool.query(deletedRecipesSql);
+  const deletedRecipesWithImgs = await Promise.all(deletedRecipesData.map(async (recipe) => {
+    const { recipeID } = recipe;
 
-  return { available: availableRecipesData, deleted: deletedRecipesData };
+    const imagesSql = `
+      SELECT imageID AS imageID, imageName, date AS 'addDate'
+      FROM images
+      WHERE recipeID = ?
+    `;
+
+    const imagesData = await pool.query(imagesSql, [recipeID]);
+
+    return { ...recipe, images: imagesData };
+  }));
+
+  return { available: availableRecipesWithImgs, deleted: deletedRecipesWithImgs };
 };
 
 const searchBy = async (
@@ -49,7 +75,22 @@ const searchBy = async (
     recipesSql += 'ORDER BY r.recipeID ASC;';
   }
 
-  return await pool.query(recipesSql);
+  const recipesData = await pool.query(recipesSql);
+  const recipesWithImgs = await Promise.all(recipesData.map(async (recipe) => {
+    const { recipeID } = recipe;
+
+    const imagesSql = `
+      SELECT imageID AS imageID, imageName, date AS 'addDate'
+      FROM images
+      WHERE recipeID = ?
+    `;
+
+    const imagesData = await pool.query(imagesSql, [recipeID]);
+
+    return { ...recipe, images: imagesData };
+  }));
+
+  return recipesWithImgs;
 };
 
 const getById = async (recipeID) => {
@@ -73,7 +114,7 @@ const getById = async (recipeID) => {
   const ingredientsData = await pool.query(ingredientsSql, [recipeID]);
 
   const imagesSql = `
-    SELECT imageID AS imageID, url
+    SELECT imageID AS imageID, imageName, date AS 'addDate'
     FROM images
     WHERE recipeID = ?
   `;

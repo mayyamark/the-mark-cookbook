@@ -1,4 +1,5 @@
 import express from 'express';
+import imagesController from './images.controller.js';
 import recipesData from '../data/recipes.data.js';
 import serviceErrors from '../services/service.errors.js';
 import recipesService from '../services/recipes.service.js';
@@ -7,6 +8,7 @@ import createRecipeSchema from '../validators/create-recipe.schema.js';
 import updateRecipeSchema from '../validators/update-recipe.schema.js';
 
 const recipesController = express.Router();
+recipesController.use(imagesController);
 
 recipesController.get('/', async (req, res) => {
   const { name, category, order } = req.query;
@@ -22,7 +24,9 @@ recipesController.get('/', async (req, res) => {
 recipesController.get('/:recipeID', async (req, res) => {
   const { recipeID } = req.params;
 
-  const { error, recipe } = await recipesService.getRecipeById(recipesData)(recipeID);
+  const { error, recipe } = await recipesService.getRecipeById(recipesData)(
+    recipeID,
+  );
 
   if (error === serviceErrors.RESOURCE_NOT_FOUND) {
     return res
@@ -47,11 +51,9 @@ recipesController.post(
     );
 
     if (error === serviceErrors.DUPLICATE_RESOURCE) {
-      return res
-        .status(400)
-        .send({
-          message: `A recipe with name '${recipeName}' exsists already!`,
-        });
+      return res.status(400).send({
+        message: `A recipe with name '${recipeName}' exsists already!`,
+      });
     } else if (error === serviceErrors.INSERT_FAILED) {
       return res.status(400).send({ message: 'Insertion failed!' });
     }
@@ -65,7 +67,13 @@ recipesController.put(
   bodyValidator(updateRecipeSchema),
   async (req, res) => {
     const { recipeID } = req.params;
-    const { recipeName, category, instructions, ingredients, isDeleted } = req.body;
+    const {
+      recipeName,
+      category,
+      instructions,
+      ingredients,
+      isDeleted,
+    } = req.body;
 
     const { error, recipe } = await recipesService.updateRecipe(recipesData)(
       recipeID,
@@ -82,9 +90,7 @@ recipesController.put(
         .send({ message: `There is no recipe with id ${recipeID}!` });
     }
     if (error === serviceErrors.UPDATE_FAILED) {
-      return res
-        .status(400)
-        .send({ message: 'Update failed!' });
+      return res.status(400).send({ message: 'Update failed!' });
     }
 
     res.status(200).send(recipe);
