@@ -36,7 +36,7 @@ INSERT INTO `recipe_ingredients` (id, recipeID, ingredientID, measureID, amount)
 (4, 2, 3, 1, 2),
 (5, 2, 4, 5, 100);
 
-INSERT INTO `images` (`imageID`, `recipeID`, `imageName`) VALUES
-(1, 1, 'https://food-images.files.bbci.co.uk/food/recipes/cheeseomelette_80621_16x9.jpg'),
-(2, 2, 'https://nashiterecepti.com/content/NV8xMjU1N19qcGdfODAwXzgwMF8w/mnogo-shokoladova-torta-bejlis.png');
+INSERT INTO `images` (`imageID`, `recipeID`, `imageName`, `date`) VALUES
+(1, 1, 'https://food-images.files.bbci.co.uk/food/recipes/cheeseomelette_80621_16x9.jpg', '2020-10-07 18:46:40'),
+(2, 2, 'https://nashiterecepti.com/content/NV8xMjU1N19qcGdfODAwXzgwMF8w/mnogo-shokoladova-torta-bejlis.png', '2020-10-07 18:46:40');
 COMMIT;

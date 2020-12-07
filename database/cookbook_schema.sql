@@ -72,9 +72,10 @@ ENGINE = InnoDB;
 
 
 CREATE TABLE `cookbook`.`images` (
-  `imageID` INT NOT NULL AUTO_INCREMENT ,
-  `recipeID` INT NOT NULL ,
-  `imageName` VARCHAR(500) NOT NULL ,
+  `imageID` INT NOT NULL AUTO_INCREMENT,
+  `recipeID` INT NOT NULL,
+  `imageName` VARCHAR(500) NOT NULL,
+  `date` DATETIME NOT NULL,
   PRIMARY KEY (`imageID`),
 INDEX `fk_images_recipes1_idx` (`recipeID` ASC),
   CONSTRAINT `fk_images_recipes1_idx`
