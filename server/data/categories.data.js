@@ -7,7 +7,24 @@ const getAll = async () => {
   `;
 
   const categoriesData = await pool.query(categoriesSql);
-  return categoriesData;
+
+  const categoriesWithImages = await Promise.all(
+    categoriesData.map(async (category) => {
+      const { categoryID } = category;
+      const imagesSql = `
+      SELECT r.recipeID, i.imageID, i.imageName, i.date as 'addDate'
+      FROM images i
+      JOIN recipes r ON r.recipeID = i.recipeID
+      WHERE r.categoryID = ?
+      LIMIT 1;
+    `;
+
+      const imagesData = await pool.query(imagesSql, [categoryID]);
+      return { ...category, images: imagesData };
+    }),
+  );
+
+  return categoriesWithImages;
 };
 
 const getByName = async (categoryName) => {
@@ -22,13 +39,13 @@ const getByName = async (categoryName) => {
 };
 
 const create = async (categoryName) => {
-  const insertSql =  `
+  const insertSql = `
     INSERT INTO categories(category)
     VALUES(?);
   `;
 
   const insertData = await pool.query(insertSql, [categoryName]);
-  return  insertData.insertId;
+  return insertData.insertId;
 };
 export default {
   getAll,

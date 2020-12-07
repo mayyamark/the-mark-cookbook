@@ -164,8 +164,8 @@ const create = async (recipeName, category, instructions, ingredients) => {
       instructions,
     };
     const ingredientsData = await Promise.all(
-      ingredients.map(async (el) => {
-        const { ingredient, measure, amount } = el;
+      ingredients.map(async (ingr) => {
+        const { ingredient, measure, amount } = ingr;
 
         const ingredientControlSql = `
           SELECT ingredientID
@@ -253,8 +253,8 @@ const update = async (recipeID, recipeName, category, instructions, ingredients,
     }
     if (ingredients) {
       await Promise.all(
-        ingredients.map(async (el) => {
-          const { recipeIngredientID, ingredient, measure, amount } = el;
+        ingredients.map(async (ingr) => {
+          const { recipeIngredientID, ingredient, measure, amount } = ingr;
 
           if (ingredient !== '') {
             const ingredientControlSql = `
