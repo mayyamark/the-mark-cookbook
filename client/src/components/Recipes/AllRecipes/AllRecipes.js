@@ -1,27 +1,42 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import CreateRecipe from '../CreateRecipe/CreateRecipe';
+import AllRecipesview from './AllRecipesView';
 
-const AllRecipes = ({ recipes }) => {
-  console.log(recipes);
+const AllRecipes = ({ recipes, createRecipe }) => {
+  const [creating, setCreating] = useState(false);
+
   return (
     <>
-      <ul>
-        {recipes.map((recipe) => (
-          <li key={recipe.recipeID}>
-            <Link to={`/recipe/${recipe.recipeID}`}>{recipe.recipeName}</Link>
-            <div>
-              {recipe.images.map((image) => (
-                <img
-                  key={image.imageID}
-                  src={
-                    require(`../../../../../server/images/${image.imageName}`).default
-                  }
-                  alt="image"
-                />
+      {creating ? (
+        <CreateRecipe sendRecipe={createRecipe} />
+      ) : (
+        <>
+          <button onClick={() => setCreating((prevState) => !prevState)}>
+            Добави рецепта
+          </button>
+
+          {recipes.available ? (
+            <>
+              <ul>
+                {recipes.available.map((recipe) => (
+                  <AllRecipesview key={recipe.recipeID} recipe={recipe} />
+                ))}
+              </ul>
+              <ul>
+                {recipes.deleted.map((recipe) => (
+                  <AllRecipesview key={recipe.recipeID} recipe={recipe} />
+                ))}
+              </ul>
+            </>
+          ) : (
+            <ul>
+              {recipes.map((recipe) => (
+                <AllRecipesview key={recipe.recipeID} recipe={recipe} />
               ))}
-            </div>
-          </li>
-        ))}
-      </ul>
+            </ul>
+          )}
+        </>
+      )}
     </>
   );
 };
