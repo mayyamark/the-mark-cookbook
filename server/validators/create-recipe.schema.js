@@ -37,13 +37,25 @@ const createRecipeSchema = {
     if (value.some((el) => !el.ingredient || !el.measure || !el.amount)) {
       return 'Each element in the ingredients array must have ingredient, measure and amount property! Valid format: [{ ingredient:..., measure:..., amount:... }, ...]';
     }
-    if (!value.every((el) => typeof el.measure === 'string' && el.measure.trim().length > 1)) {
+    if (
+      !value.every(
+        (el) =>
+          typeof el.measure === 'string' &&
+          el.measure.trim().length > 1 &&
+          el.ingredient.length < 45,
+      )
+    ) {
       return 'The measure property of each element of the ingredients array must be a string with [1, 45] characters!';
     }
     if (
-      !value.every((el) => typeof el.ingredient === 'string' && el.ingredient.trim().length > 3 && el.ingredient.length < 45)
+      !value.every(
+        (el) =>
+          typeof el.ingredient === 'string' &&
+          el.ingredient.trim().length > 1 &&
+          el.ingredient.length < 45,
+      )
     ) {
-      return 'The ingredient property of each element of the ingredients array must be a string with [3, 45] characters!';
+      return 'The ingredient property of each element of the ingredients array must be a string with [1, 45] characters!';
     }
     if (value.some((el) => typeof el.amount === 'number' && el.amount > 0)) {
       return 'The amount property of each element of the ingredients array must be a number, greater than 0!';
