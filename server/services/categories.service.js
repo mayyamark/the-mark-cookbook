@@ -14,7 +14,7 @@ const createCategory = (categoriesData) => {
     }
 
     const categoryID = await categoriesData.create(categoryName);
-    return { category: { categoryID, categoryName }, error: null };
+    return { category: { categoryID, category: categoryName, images: [] }, error: null };
   };
 };
 
