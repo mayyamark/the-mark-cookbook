@@ -58,6 +58,28 @@ const SingleRecipeContainer = () => {
       });
   };
 
+  const handleUpdateRecipe = (recipeData) => {
+    setRecipe({ loading: true, data: null, error: null });
+
+    fetch(`http://localhost:5000/recipes/${recipeID}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(recipeData),
+    })
+      .then((response) => {
+        if (response.status < 400) {
+          return response.json();
+        } else {
+          throw new Error(response.status);
+        }
+      })
+      .then((result) => {
+        setRecipe({ loading: false, data: result, error: null });
+      })
+      .catch((error) => {
+        setRecipe({ loading: false, data: null, error: error });
+      });
+  };
 
   return (
     <>
@@ -66,7 +88,7 @@ const SingleRecipeContainer = () => {
       ) : recipe.loading ? (
         <h4>Loading...</h4>
       ) : (
-        <SingleRecipe recipe={recipe.data}  addImages={handleAddImages} />
+        <SingleRecipe recipe={recipe.data} updateRecipe={handleUpdateRecipe} addImages={handleAddImages} />
       )}
     </>
   );
