@@ -26,10 +26,7 @@ const Categories = ({ categories, createCategory }) => {
                       {category.images.map((image) => (
                         <img
                           key={image.imageID}
-                          src={
-                            require(`../../../../../server/images/${image.imageName}`)
-                              .default
-                          }
+                          src={`http://localhost:5000/images/${image.imageName}`}
                           alt="image"
                         />
                       ))}
