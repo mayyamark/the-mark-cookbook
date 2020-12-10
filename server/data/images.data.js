@@ -5,7 +5,7 @@ const add = async (recipeID, filesData) => {
     const imagesData = Promise.all(
       filesData.map(async (file) => {
         const addDate = new Date();
-        const { filename, path } = file;
+        const { filename } = file;
 
         const insertSql = `
         INSERT INTO images(recipeID, imageName, date)
@@ -20,9 +20,7 @@ const add = async (recipeID, filesData) => {
 
         return {
           imageID: insertData.insertId,
-          recipeID,
-          filename,
-          path,
+          imageName: filename,
           addDate,
         };
       }),

@@ -7,7 +7,7 @@ const CategoriesContainer = () => {
     data: null,
     error: null,
   });
-  console.log(categories);
+
   useEffect(() => {
     setCategories({ loading: true, data: null, error: null });
 

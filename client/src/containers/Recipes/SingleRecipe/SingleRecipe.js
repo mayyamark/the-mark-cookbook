@@ -1,22 +1,72 @@
-import useGetData from '../../../custom-hooks/useGetData';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import SingleRecipe from '../../../components/Recipes/SingleRecipe/SingleRecipe';
 
 const SingleRecipeContainer = () => {
   const { recipeID } = useParams();
+  const history = useHistory();
 
-  const { data, loading, error } = useGetData(
-    `http://localhost:5000/recipes/${recipeID}`,
-  );
+  const [recipe, setRecipe] = useState({
+    loading: true,
+    data: null,
+    error: null,
+  });
+
+  useEffect(() => {
+    setRecipe({ loading: true, data: null, error: null });
+
+    fetch(`http://localhost:5000/recipes/${recipeID}`, {
+      method: 'GET',
+    })
+      .then((response) => {
+        if (response.status < 400) {
+          return response.json();
+        } else {
+          throw new Error(response.status);
+        }
+      })
+      .then((result) => {
+        setRecipe({ loading: false, data: result, error: null });
+      })
+      .catch((error) => {
+        setRecipe({ loading: false, data: null, error: error });
+      });
+  }, [recipeID]);
+
+  const handleAddImages = (filesData) => {
+    setRecipe({ ...recipe, loading: true });
+
+    fetch(`http://localhost:5000/recipes/${recipeID}/images`, {
+      method: 'POST',
+      body: filesData,
+    })
+      .then((response) => {
+        if (response.status < 400) {
+          return response.json();
+        } else {
+          throw new Error(response.status);
+        }
+      })
+      .then((result) => {
+        const recipeCopy = { ...recipe };
+        recipeCopy.data.images = [...recipeCopy.data.images, ...result]; // cant find new photos
+        recipe.loading = false;
+        setRecipe(recipeCopy);
+      })
+      .catch((error) => {
+        setRecipe({ loading: false, data: null, error: error });
+      });
+  };
+
 
   return (
     <>
-      {error ? (
-        <h4>{error.message}</h4>
-      ) : loading ? (
+      {recipe.error ? (
+        <h4>{recipe.error.message}</h4>
+      ) : recipe.loading ? (
         <h4>Loading...</h4>
       ) : (
-        <SingleRecipe recipe={data} />
+        <SingleRecipe recipe={recipe.data}  addImages={handleAddImages} />
       )}
     </>
   );
