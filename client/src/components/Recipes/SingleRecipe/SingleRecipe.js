@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import AddImages from '../AddImages/AddImages';
+import RemoveImages from '../RemoveImages/RemoveImages';
 import UpdateRecipe from '../UpdateRecipe/UpdateRecipe';
 
-const SingleRecipe = ({ recipe, updateRecipe, addImages }) => {
+const SingleRecipe = ({ recipe, updateRecipe, addImages, removeImages }) => {
   const {
     recipeName,
     addDate,
@@ -15,6 +16,7 @@ const SingleRecipe = ({ recipe, updateRecipe, addImages }) => {
 
   const [updating, setUpdating] = useState(false);
   const [addingImages, setAddingImages] = useState(false);
+  const [removingImages, setRemovingImages] = useState(false);
 
   return (
     <>
@@ -22,6 +24,12 @@ const SingleRecipe = ({ recipe, updateRecipe, addImages }) => {
         <UpdateRecipe recipe={recipe} sendRecipe={updateRecipe} />
       ) : addingImages ? (
         <AddImages sendImages={addImages} close={setAddingImages} />
+      ) : removingImages ? (
+        <RemoveImages
+          recipeImages={images}
+          removeImages={removeImages}
+          close={setRemovingImages}
+        />
       ) : (
         <>
           <p>{recipeName}</p>
@@ -51,6 +59,9 @@ const SingleRecipe = ({ recipe, updateRecipe, addImages }) => {
           <button onClick={() => setAddingImages((prevState) => !prevState)}>
             Добави снимки
           </button>
+          {recipe.images.length > 0 && <button onClick={() => setRemovingImages((prevState) => !prevState)}>
+            Премахни снимки
+          </button>}
         </>
       )}
     </>

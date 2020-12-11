@@ -22,8 +22,8 @@ const addImages = (recipesData, imagesData) => {
   };
 };
 
-const removeImage = (recipesData, imagesData) => {
-  return async (recipeID, imageID) => {
+const removeImages = (recipesData, imagesData) => {
+  return async (recipeID, imagesIDs) => {
     const exsistingRecipe = await recipesData.getById(recipeID);
     if (!exsistingRecipe) {
       return {
@@ -32,19 +32,19 @@ const removeImage = (recipesData, imagesData) => {
       };
     }
 
-    const image = await imagesData.remove(imageID);
-    if (!image) {
+    const images = await imagesData.remove(recipeID, imagesIDs);
+    if (!images) {
       return {
         image: null,
         error: serviceErrors.UPDATE_FAILED,
       };
     }
 
-    return { image, error: null };
+    return { images, error: null };
   };
 };
 
 export default {
   addImages,
-  removeImage,
+  removeImages,
 };

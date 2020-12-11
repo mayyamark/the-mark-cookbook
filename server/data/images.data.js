@@ -2,7 +2,7 @@ import pool from './pool.js';
 
 const add = async (recipeID, filesData) => {
   try {
-    const imagesData = Promise.all(
+    const imagesData = await Promise.all(
       filesData.map(async (file) => {
         const addDate = new Date();
         const { filename } = file;
@@ -33,15 +33,37 @@ const add = async (recipeID, filesData) => {
   }
 };
 
-const remove = async (imageID) => {
+const remove = async (recipeID, imagesIDs) => {
   try {
-    const removeSql = `
-      DELETE FROM images
-      WHERE imageID = ?
+    const deletedImagesData = await Promise.all(
+      imagesIDs.map(async (imageID) => {
+        const imageSql = `
+          SELECT imageID AS imageID, imageName, date AS 'addDate'
+          FROM images
+          WHERE imageID = ?
+        `;
+
+        const imageData = await pool.query(imageSql, [imageID]);
+
+        const removeSql = `
+          DELETE FROM images
+          WHERE imageID = ?
+        `;
+
+        await pool.query(removeSql, [imageID]);
+        return imageData;
+      }),
+    );
+
+    const availableImagesSql = `
+      SELECT imageID AS imageID, imageName, date AS 'addDate'
+      FROM images
+      WHERE recipeID = ?
     `;
 
-    await pool.query(removeSql, [imageID]);
-    return imageID;
+    const availableImagesData = await pool.query(availableImagesSql, [recipeID]);
+
+    return { deleted: deletedImagesData, available: availableImagesData };
   } catch (error) {
     console.log(error);
     return null;

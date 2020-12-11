@@ -81,6 +81,33 @@ const SingleRecipeContainer = () => {
       });
   };
 
+  const handleRemoveImages = (imagesIDs) => {
+    setRecipe({ ...recipe, loading: true });
+
+    fetch(`http://localhost:5000/recipes/${recipeID}/images`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(imagesIDs),
+    })
+      .then((response) => {
+        if (response.status < 400) {
+          return response.json();
+        } else {
+          throw new Error(response.status);
+        }
+      })
+      .then((result) => {
+        const recipeCopy = { ...recipe };
+
+        recipeCopy.data.images = result.available;
+        recipeCopy.loading = false;
+        setRecipe(recipeCopy);
+      })
+      .catch((error) => {
+        setRecipe({ loading: false, data: null, error: error });
+      });
+  };
+
   return (
     <>
       {recipe.error ? (
@@ -88,7 +115,7 @@ const SingleRecipeContainer = () => {
       ) : recipe.loading ? (
         <h4>Loading...</h4>
       ) : (
-        <SingleRecipe recipe={recipe.data} updateRecipe={handleUpdateRecipe} addImages={handleAddImages} />
+        <SingleRecipe recipe={recipe.data} updateRecipe={handleUpdateRecipe} addImages={handleAddImages} removeImages={handleRemoveImages} />
       )}
     </>
   );

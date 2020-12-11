@@ -55,7 +55,6 @@ const UpdateRecipe = ({ recipe, sendRecipe }) => {
     },
   });
   const [isFormValid, setIsFormValid] = useState(false);
-  console.log(form);
 
   const update = (ev) => {
     ev.preventDefault();
@@ -228,17 +227,6 @@ const UpdateRecipe = ({ recipe, sendRecipe }) => {
         })}
         <button onClick={addIngredient}>Добави продукт</button>
       </ul>
-      <div>
-        {images.map((image) => (
-          <img
-            key={image.imageID}
-            src={
-              require(`../../../../../server/images/${image.imageName}`).default
-            }
-            alt="image"
-          />
-        ))}
-      </div>
       <input
         type="text"
         name="instructions"

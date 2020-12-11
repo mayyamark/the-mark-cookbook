@@ -27,18 +27,19 @@ imagesController.post(
 );
 
 imagesController.delete(
-  '/:recipeID/images/:imageID',
+  '/:recipeID/images',
   async (req, res) => {
-    const { recipeID, imageID } = req.params;
+    const { recipeID } = req.params;
+    const imagesIDs = req.body;
 
-    const { image, error } = await imagesService.removeImage(recipesData, imagesData)(recipeID, imageID);
+    const { images, error } = await imagesService.removeImages(recipesData, imagesData)(recipeID, imagesIDs);
     if (error === serviceErrors.RESOURCE_NOT_FOUND) {
       return res.status(404).send({ message: `There is no recipe with id ${recipeID}!`});
     }
     if (error === serviceErrors.INSERT_FAILED) {
       return res.status(400).send({ message: 'Remove operation failed!'});
     }
-    res.status(201).send({ imageID: image });
+    res.status(201).send(images);
   },
 );
 

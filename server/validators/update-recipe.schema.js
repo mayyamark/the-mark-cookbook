@@ -33,10 +33,6 @@ const updateRecipeSchema = {
     if (!Array.isArray(value) || value.length < 1) {
       return 'Recipe\'s ingredients must be sent in an array with at least 1 element!';
     }
-
-    if (!value.every((el) => el.ingredient && el.measure && el.amount)) {
-      return 'Each element in the ingredients array must have ingredient, measure and amount property! Valid format: [{ ingredient:..., measure:..., amount:... }, ...]';
-    }
     if (
       !value.every(
         (el) => typeof el.measure === 'string' && el.measure.trim().length > 1,
