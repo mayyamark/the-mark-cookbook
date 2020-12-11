@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const CreateRecipe = ({ sendRecipe }) => {
+const CreateRecipe = ({ categories, measures, sendRecipe }) => {
   const [form, setForm] = useState({
     recipeName: {
       value: '',
@@ -120,7 +120,9 @@ const CreateRecipe = ({ sendRecipe }) => {
     updatedIngredients.touched = true;
     updatedIngredients.value[+id][name] = value;
     updatedIngredients.valid = updatedIngredients.value.every((ingr) => {
-      return Object.values(ingr).every(el => isInputValid(el, updatedIngredients.validations));
+      return Object.values(ingr).every((el) =>
+        isInputValid(el, updatedIngredients.validations),
+      );
     });
 
     const updatedForm = { ...form, ['ingredients']: updatedIngredients };
@@ -142,12 +144,16 @@ const CreateRecipe = ({ sendRecipe }) => {
         onChange={handleChange}
       />
       <label htmlFor="category">Категория:</label>
-      <input
-        type="text"
-        name="category"
-        value={form.category.value}
-        onChange={handleChange}
-      />
+      <select name="category" onChange={handleChange}>
+        <option value={''}>{''}</option>
+        {categories.map((cat) => {
+          return (
+            <option key={cat.category} value={cat.category}>
+              {cat.category}
+            </option>
+          );
+        })}
+      </select>
       <label htmlFor="instructions">Инструкции:</label>
       <input
         type="text"
@@ -167,13 +173,16 @@ const CreateRecipe = ({ sendRecipe }) => {
               onChange={handleIngredientChange}
             />
             <label htmlFor="measure">Мерна единица:</label>
-            <input
-              id={index}
-              type="text"
-              name="measure"
-              value={input.measure}
-              onChange={handleIngredientChange}
-            />
+            <select name="measure" id={index} onChange={handleIngredientChange}>
+              <option value={''}>{''}</option>
+              {measures.map((measure) => {
+                return (
+                  <option key={measure.measure} value={measure.measure}>
+                    {measure.measure}
+                  </option>
+                );
+              })}
+            </select>
             <label htmlFor="ingredient">Съставка:</label>
             <input
               id={index}

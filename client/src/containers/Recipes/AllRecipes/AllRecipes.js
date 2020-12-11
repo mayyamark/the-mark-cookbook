@@ -9,7 +9,7 @@ const AllRecipesContainer = () => {
 
   const [recipes, setRecipes] = useState({
     loading: true,
-    data: null,
+    data: { recipes: null, categories: null, measures: null },
     error: null,
   });
 
@@ -17,44 +17,114 @@ const AllRecipesContainer = () => {
     useEffect(() => {
       setRecipes({ loading: true, data: null, error: null });
 
-      fetch('http://localhost:5000/recipes', {
-        method: 'GET',
-      })
-        .then((response) => {
-          if (response.status < 400) {
-            return response.json();
-          } else {
-            throw new Error(response.status);
-          }
+      Promise.allSettled([
+        fetch('http://localhost:5000/recipes', {
+          method: 'GET',
         })
-        .then((result) => {
-          setRecipes({ loading: false, data: result, error: null });
+          .then((response) => {
+            if (response.status < 400) {
+              return response.json();
+            } else {
+              throw new Error(response.status);
+            }
+          })
+          .then((result) => {
+            const recipesCopy = { ...recipes };
+            recipesCopy.data.recipes = result;
+            setRecipe(recipesCopy);
+          }),
+        fetch('http://localhost:5000/categories', {
+          method: 'GET',
         })
+          .then((response) => {
+            if (response.status < 400) {
+              return response.json();
+            } else {
+              throw new Error(response.status);
+            }
+          })
+          .then((result) => {
+            const recipesCopy = { ...recipes };
+            recipesCopy.data.categories = result;
+            setRecipe(recipesCopy);
+          }),
+        fetch('http://localhost:5000/measures', {
+          method: 'GET',
+        })
+          .then((response) => {
+            if (response.status < 400) {
+              return response.json();
+            } else {
+              throw new Error(response.status);
+            }
+          })
+          .then((result) => {
+            const recipesCopy = { ...recipes };
+            recipesCopy.data.measures = result;
+            setRecipe(recipesCopy);
+          }),
+      ])
         .catch((error) => {
           setRecipes({ loading: false, data: null, error: error });
-        });
+        })
+        .finally(() => setRecipes({ ...recipes, loading: false }));
     }, []);
   }
   if (category) {
     useEffect(() => {
       setRecipes({ loading: true, data: null, error: null });
 
-      fetch(`http://localhost:5000/recipes?category=${category}`, {
-        method: 'GET',
-      })
-        .then((response) => {
-          if (response.status < 400) {
-            return response.json();
-          } else {
-            throw new Error(response.status);
-          }
+      Promise.allSettled([
+        fetch(`http://localhost:5000/recipes?category=${category}`, {
+          method: 'GET',
         })
-        .then((result) => {
-          setRecipes({ loading: false, data: result, error: null });
+          .then((response) => {
+            if (response.status < 400) {
+              return response.json();
+            } else {
+              throw new Error(response.status);
+            }
+          })
+          .then((result) => {
+            const recipesCopy = { ...recipes };
+            recipesCopy.data.recipes = result;
+            setRecipe(recipesCopy);
+          }),
+        fetch('http://localhost:5000/categories', {
+          method: 'GET',
         })
+          .then((response) => {
+            if (response.status < 400) {
+              return response.json();
+            } else {
+              throw new Error(response.status);
+            }
+          })
+          .then((result) => {
+            const recipesCopy = { ...recipes };
+            recipesCopy.data.categories = result;
+            setRecipe(recipesCopy);
+          }),
+        fetch('http://localhost:5000/measures', {
+          method: 'GET',
+        })
+          .then((response) => {
+            if (response.status < 400) {
+              return response.json();
+            } else {
+              throw new Error(response.status);
+            }
+          })
+          .then((result) => {
+            const recipesCopy = { ...recipes };
+            recipesCopy.data.measures = result;
+            setRecipe(recipesCopy);
+          }),
+      ])
         .catch((error) => {
           setRecipes({ loading: false, data: null, error: error });
-        });
+        })
+        .finally(() => setRecipes({ ...recipes, loading: false }));
     }, [category]);
   }
 
@@ -88,7 +158,12 @@ const AllRecipesContainer = () => {
       ) : recipes.loading ? (
         <h4>Loading...</h4>
       ) : (
-        <AllRecipes recipes={recipes.data} createRecipe={handleCreateRecipe} />
+        <AllRecipes
+          recipes={recipes.data.recipes}
+          categories={recipes.data.categories}
+          measures={recipes.data.measures}
+          createRecipe={handleCreateRecipe}
+        />
       )}
     </>
   );

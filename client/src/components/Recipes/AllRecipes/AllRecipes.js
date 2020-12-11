@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CreateRecipe from '../CreateRecipe/CreateRecipe';
 import AllRecipesview from './AllRecipesView';
 
-const AllRecipes = ({ recipes, createRecipe }) => {
+const AllRecipes = ({ recipes, categories, measures, createRecipe }) => {
   const [creating, setCreating] = useState(false);
   const [recipesData, setRecipesData] = useState(recipes);
 
@@ -24,7 +24,7 @@ const AllRecipes = ({ recipes, createRecipe }) => {
   return (
     <>
       {creating ? (
-        <CreateRecipe sendRecipe={createRecipe} />
+        <CreateRecipe categories={categories} measures={measures} sendRecipe={createRecipe} />
       ) : (
         <>
           <button onClick={() => setCreating((prevState) => !prevState)}>
