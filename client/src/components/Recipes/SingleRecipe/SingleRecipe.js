@@ -3,7 +3,7 @@ import AddImages from '../AddImages/AddImages';
 import RemoveImages from '../RemoveImages/RemoveImages';
 import UpdateRecipe from '../UpdateRecipe/UpdateRecipe';
 
-const SingleRecipe = ({ recipe, updateRecipe, addImages, removeImages }) => {
+const SingleRecipe = ({ recipe, categories, measures, updateRecipe, addImages, removeImages }) => {
   const {
     recipeName,
     addDate,
@@ -21,7 +21,7 @@ const SingleRecipe = ({ recipe, updateRecipe, addImages, removeImages }) => {
   return (
     <>
       {updating ? (
-        <UpdateRecipe recipe={recipe} sendRecipe={updateRecipe} />
+        <UpdateRecipe recipe={recipe} categories={categories} measures={measures} sendRecipe={updateRecipe} />
       ) : addingImages ? (
         <AddImages sendImages={addImages} close={setAddingImages} />
       ) : removingImages ? (

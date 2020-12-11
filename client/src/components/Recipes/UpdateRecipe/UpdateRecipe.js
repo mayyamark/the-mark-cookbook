@@ -1,14 +1,7 @@
 import { useState } from 'react';
 
-const UpdateRecipe = ({ recipe, sendRecipe }) => {
-  const {
-    recipeName,
-    category,
-    ingredients,
-    instructions,
-    images,
-    isDeleted,
-  } = recipe;
+const UpdateRecipe = ({ recipe, categories, measures, sendRecipe }) => {
+  const { recipeName, category, ingredients, instructions, isDeleted } = recipe;
 
   const [form, setForm] = useState({
     recipeName: {
@@ -54,7 +47,7 @@ const UpdateRecipe = ({ recipe, sendRecipe }) => {
       touched: false,
     },
   });
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(true);
 
   const update = (ev) => {
     ev.preventDefault();
@@ -150,12 +143,11 @@ const UpdateRecipe = ({ recipe, sendRecipe }) => {
     const updatedForm = { ...form, ['ingredients']: updatedIngredients };
 
     setForm(updatedForm);
-    const checkIfFormIsValid = Object.values(updatedForm).every(
-      (el) => el.valid,
-    );
-    setIsFormValid(checkIfFormIsValid);
+    // const checkIfFormIsValid = Object.values(updatedForm).every(
+    //   (el) => el.valid,
+    // );
+    // setIsFormValid(checkIfFormIsValid);
   };
-
   return (
     <form onSubmit={update}>
       <input
@@ -181,14 +173,26 @@ const UpdateRecipe = ({ recipe, sendRecipe }) => {
         defaultChecked={isDeleted === 1}
         onChange={handleChange}
       />
-
-      <input
+      <label htmlFor="category">Категория:</label>
+      {/* <input
         type="text"
         name="category"
-        value={form.category.value}
+        value={category}
         onChange={handleChange}
-      />
+      /> */}
 
+      <select name="category" onChange={handleChange}>
+        <option value={form.category.value} >{form.category.value}</option>
+        {categories.map((cat) => {
+          if (cat.category !== form.category.value) {
+            return (
+              <option key={cat.category} value={cat.category}>
+                {cat.category}
+              </option>
+            );
+          }
+        })}
+      </select>
       <ul>
         {form.ingredients.value.map((input, index) => {
           if (!input.hide) {
@@ -203,13 +207,31 @@ const UpdateRecipe = ({ recipe, sendRecipe }) => {
                   onChange={handleIngredientChange}
                 />
                 <label htmlFor="measure">Мерна единица:</label>
-                <input
+                <select
+                  name="measure"
+                  id={index}
+                  onChange={handleIngredientChange}
+                >
+                  <option value={form.ingredients.value[index].measure}>
+                    {form.ingredients.value[index].measure}
+                  </option>
+                  {measures.map((measure) => {
+                    if (measure.measure !== form.ingredients.value[index].measure) {
+                      return (
+                        <option key={measure.measure} value={measure.measure}>
+                          {measure.measure}
+                        </option>
+                      );
+                    }
+                  })}
+                </select>
+                {/* <input
                   id={index}
                   type="text"
                   name="measure"
                   value={input.measure}
                   onChange={handleIngredientChange}
-                />
+                /> */}
                 <label htmlFor="ingredient">Съставка:</label>
                 <input
                   id={index}

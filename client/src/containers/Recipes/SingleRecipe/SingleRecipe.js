@@ -1,36 +1,71 @@
 import { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import SingleRecipe from '../../../components/Recipes/SingleRecipe/SingleRecipe';
 
 const SingleRecipeContainer = () => {
   const { recipeID } = useParams();
-  const history = useHistory();
 
   const [recipe, setRecipe] = useState({
     loading: true,
-    data: null,
+    data: { recipe: null, categories: null, measures: null },
     error: null,
   });
 
   useEffect(() => {
     setRecipe({ loading: true, data: null, error: null });
 
-    fetch(`http://localhost:5000/recipes/${recipeID}`, {
-      method: 'GET',
-    })
-      .then((response) => {
-        if (response.status < 400) {
-          return response.json();
-        } else {
-          throw new Error(response.status);
-        }
+    Promise.allSettled([
+      fetch(`http://localhost:5000/recipes/${recipeID}`, {
+        method: 'GET',
       })
-      .then((result) => {
-        setRecipe({ loading: false, data: result, error: null });
+        .then((response) => {
+          if (response.status < 400) {
+            return response.json();
+          } else {
+            throw new Error(response.status);
+          }
+        })
+        .then((result) => {
+          const recipeCopy = { ...recipe };
+          recipeCopy.data.recipe = result;
+          setRecipe(recipeCopy);
+        }),
+
+      fetch('http://localhost:5000/categories', {
+        method: 'GET',
       })
+        .then((response) => {
+          if (response.status < 400) {
+            return response.json();
+          } else {
+            throw new Error(response.status);
+          }
+        })
+        .then((result) => {
+          const recipeCopy = { ...recipe };
+          recipeCopy.data.categories = result;
+          setRecipe(recipeCopy);
+        }),
+      fetch('http://localhost:5000/measures', {
+        method: 'GET',
+      })
+        .then((response) => {
+          if (response.status < 400) {
+            return response.json();
+          } else {
+            throw new Error(response.status);
+          }
+        })
+        .then((result) => {
+          const recipeCopy = { ...recipe };
+          recipeCopy.data.measures = result;
+          setRecipe(recipeCopy);
+        }),
+    ])
       .catch((error) => {
         setRecipe({ loading: false, data: null, error: error });
-      });
+      })
+      .finally(() => setRecipe({ ...recipe, loading: false }));
   }, [recipeID]);
 
   const handleAddImages = (filesData) => {
@@ -49,8 +84,8 @@ const SingleRecipeContainer = () => {
       })
       .then((result) => {
         const recipeCopy = { ...recipe };
-        recipeCopy.data.images = [...recipeCopy.data.images, ...result]; // cant find new photos
-        recipe.loading = false;
+        recipeCopy.data.recipe.images = [...recipeCopy.data.images, ...result]; // cant find new photos
+        recipeCopy.loading = false;
         setRecipe(recipeCopy);
       })
       .catch((error) => {
@@ -74,7 +109,10 @@ const SingleRecipeContainer = () => {
         }
       })
       .then((result) => {
-        setRecipe({ loading: false, data: result, error: null });
+        const recipeCopy = { ...recipe };
+        recipeCopy.data.recipe = result;
+        recipeCopy.loading = false;
+        setRecipe(recipeCopy);
       })
       .catch((error) => {
         setRecipe({ loading: false, data: null, error: error });
@@ -99,7 +137,7 @@ const SingleRecipeContainer = () => {
       .then((result) => {
         const recipeCopy = { ...recipe };
 
-        recipeCopy.data.images = result.available;
+        recipeCopy.data.recipe.images = result.available;
         recipeCopy.loading = false;
         setRecipe(recipeCopy);
       })
@@ -115,7 +153,14 @@ const SingleRecipeContainer = () => {
       ) : recipe.loading ? (
         <h4>Loading...</h4>
       ) : (
-        <SingleRecipe recipe={recipe.data} updateRecipe={handleUpdateRecipe} addImages={handleAddImages} removeImages={handleRemoveImages} />
+        <SingleRecipe
+          recipe={recipe.data.recipe}
+          categories={recipe.data.categories}
+          measures={recipe.data.measures}
+          updateRecipe={handleUpdateRecipe}
+          addImages={handleAddImages}
+          removeImages={handleRemoveImages}
+        />
       )}
     </>
   );
