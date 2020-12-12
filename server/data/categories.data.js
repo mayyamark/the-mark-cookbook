@@ -12,11 +12,11 @@ const getAll = async () => {
     categoriesData.map(async (category) => {
       const { categoryID } = category;
       const imagesSql = `
-      SELECT r.recipeID, i.imageID, i.imageName, i.date as 'addDate'
+      SELECT r.name, i.imageID, i.imageName, i.date as 'addDate'
       FROM images i
       JOIN recipes r ON r.recipeID = i.recipeID
       WHERE r.categoryID = ?
-      LIMIT 1;
+      LIMIT 3;
     `;
 
       const imagesData = await pool.query(imagesSql, [categoryID]);

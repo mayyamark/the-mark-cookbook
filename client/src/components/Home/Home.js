@@ -12,7 +12,7 @@ import NavBarLinks from './Sections/NavBarLinks';
 import homePage from './Sections/img/home-page.jpg';
 
 const useStyles = makeStyles((theme) => ({
-  image: {
+  imageContainer: {
     height: '90vh',
     maxHeight: '1000px',
     overflow: 'hidden',
@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = (props) => {
+const Home = () => {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -111,7 +111,7 @@ const Home = (props) => {
           color: 'white',
         }}
       />
-      <div className={classes.image}>
+      <div className={classes.imageContainer}>
         <Grid container>
           <Grid
             item

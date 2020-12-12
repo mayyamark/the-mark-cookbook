@@ -106,22 +106,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBarLinks = (props) => {
+  const { openCreateWindow } = props;
   const classes = useStyles();
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-facebook"
-          title="Виж проекта в GitLab"
+          title="Виж всички рецепти, независимо от категорията!"
           placement={window.innerWidth > 959 ? 'top' : 'left'}
           classes={{ tooltip: classes.tooltip }}
         >
-          <Button
-            href="https://gitlab.com/mayya.markova/the-mark-cookbook"
-            target="_blank"
-            className={classes.navLink}
-          >
-            <i className={classes.socialIcons + ' fab fa-gitlab'} />
+          <Button href="http://localhost:3000/recipes" className={classes.navLink}>
+            <i className="fas fa-utensils" style={{ marginRight: '5px' }} />
+            Всички рецепти
+          </Button>
+        </Tooltip>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Tooltip
+          id="instagram-facebook"
+          title="Не намираш тази, която търсиш? Създай я!"
+          placement={window.innerWidth > 959 ? 'top' : 'left'}
+          classes={{ tooltip: classes.tooltip }}
+        >
+          <Button onClick={openCreateWindow} className={classes.navLink}>
+            <i className="fas fa-pencil-alt" style={{ marginRight: '5px' }} />
+            Нова категория
           </Button>
         </Tooltip>
       </ListItem>
