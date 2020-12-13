@@ -3,9 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   infoArea: {
-    // maxWidth: '360px',
     maxWidth: '300px',
-
     margin: '0 auto',
     padding: '0px',
   },
@@ -35,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'gray',
     overflow: 'hidden',
     margin: '0 0 10px',
-    fontSize: '15px',
+    fontSize: '16px',
   },
   iconWrapperVertical: {
     float: 'none',

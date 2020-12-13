@@ -84,9 +84,9 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     width: '30%',
-    opacity: '0.8',
   },
   link: {
+    opacity: '0.8',
     paddingTop: '2%',
     paddingBottom: '2%',
     textAlign: 'center',
@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#3C4858',
     fontWeight: 700,
     '&:hover': {
+      opacity: 1,
       borderRadius: '6px',
       boxShadow:
       '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2)',
