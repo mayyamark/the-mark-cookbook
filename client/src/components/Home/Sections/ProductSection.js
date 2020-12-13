@@ -28,6 +28,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.1rem',
     padding: '5%',
   },
+  grid: {
+    '&:hover': {
+      borderRadius: '6px',
+      boxShadow:
+        '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2)',
+    },
+  },
 }));
 
 const ProductSection = () => {
@@ -47,7 +54,7 @@ const ProductSection = () => {
       </Grid>
       <div>
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={4} className={classes.grid}>
             <InfoArea
               title="Първи самостоятелен проект"
               description="Създадох това приложение веднага след завършването ми на Alpha JavaScript програмата на Telerik Academy. След 3 групови проекта, усвоих солидни знания и сега, без да са необходими инструкции, можеш бързо и лесно да откриеш всичко, което търсиш!"
@@ -56,7 +63,7 @@ const ProductSection = () => {
               vertical
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={4} className={classes.grid}>
             <InfoArea
               title="Back-end"
               description="Back-end частта на приложението спазва REST-стандарта. Приложих многослойна архитектура. За изграждане на server API използвах Express, а като connector-библиотека- MariaDB. За менажиране на снимките приложих Multer."
@@ -65,7 +72,7 @@ const ProductSection = () => {
               vertical
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={4} className={classes.grid}>
             <InfoArea
               title="Front-end"
               description="В основата на front-end частта стои една от най-популярните JavaScript библиотеки, React. Дизайнът на приложението постигнах с помощтта на Material UI и SweetAlert2."

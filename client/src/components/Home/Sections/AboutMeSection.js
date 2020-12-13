@@ -100,6 +100,13 @@ const useStyles = makeStyles((theme) => ({
   margin5: {
     margin: '5px',
   },
+  grid: {
+    '&:hover': {
+      borderRadius: '6px',
+      boxShadow:
+        '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2)',
+    },
+  },
 }));
 
 const AboutMeSection = () => {
@@ -114,7 +121,7 @@ const AboutMeSection = () => {
       <h2 className={classes.title}>А ето ме и мен:</h2>
       <div>
         <Grid container justify="center">
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={4} className={classes.grid}>
             <Card plain>
               <Grid item xs={12} sm={12} md={6} className={classes.itemGrid}>
                 <img src={mayya} alt="..." className={imageClasses} />
