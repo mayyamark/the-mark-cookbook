@@ -11,6 +11,7 @@ import NavBar from '../../Common/NavBar/NavBar';
 import CreateCategory from '../CreateCategory/CreateCategory';
 import NavBarLinks from './NavBarLinks';
 import categoriesPage from './categories-page.jpg';
+import noImage from './no-image.png';
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
@@ -98,8 +99,9 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       opacity: 1,
       borderRadius: '6px',
+      textShadow: '2px 2px 8px gray',
       boxShadow:
-      '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2)',
+        '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2)',
     },
   },
 }));
@@ -148,30 +150,49 @@ const Categories = ({ categories, createCategory }) => {
                 <div className={classes.container}>
                   <List>
                     {categories.map((category) => {
-                      if (category.images.length > 0) {
-                        return (
-                          <ListItem key={category.categoryID}>
-                            <Link
-                              className={classes.link}
-                              to={`/recipes?category=${category.category}`}
-                            >
-                              {category.category}
-                              <div className={classes.imagesContainer} >
-                                {category.images.map((image) => (
+                      return (
+                        <ListItem key={category.categoryID}>
+                          <Link
+                            className={classes.link}
+                            to={`/recipes?category=${category.category}`}
+                          >
+                            {category.category}
+                            <div className={classes.imagesContainer}>
+                              {category.images.length > 0 ? (
+                                category.images.map((image) => (
                                   <img
                                     className={classes.image}
                                     key={image.imageID}
                                     src={`http://localhost:5000/images/${image.imageName}`}
                                     alt="image"
                                   />
-                                ))}
-                              </div>
-                            </Link>
-                          </ListItem>
-                        );
-                      } else {
-                        return null;
-                      }
+                                ))
+                              ) : (
+                                <>
+                                  <img
+                                    className={classes.image}
+                                    key={category.category}
+                                    src={noImage}
+                                    alt="image"
+                                  />
+                                  <img
+                                    className={classes.image}
+                                    key={category.category}
+                                    src={noImage}
+                                    alt="image"
+                                  />
+                                  <img
+                                    className={classes.image}
+                                    key={category.category}
+                                    src={noImage}
+                                    alt="image"
+                                  />
+                                </>
+                              )}
+                            </div>
+                          </Link>
+                        </ListItem>
+                      );
                     })}
                   </List>
                 </div>
