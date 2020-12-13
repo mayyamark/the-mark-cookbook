@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import noImage from './no-image.png';
+import noImage from './img/no-image.png';
 
 const useStyles = makeStyles((theme) => ({
   grid: {

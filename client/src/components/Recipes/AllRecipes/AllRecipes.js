@@ -9,8 +9,8 @@ import NavBar from '../../Common/NavBar/NavBar';
 import CreateRecipe from '../CreateRecipe/CreateRecipe';
 import AllRecipesview from './AllRecipesView';
 import NavBarLinks from './NavBarLinks';
-import allRecipesPage from './all-recipes-page.jpg';
-import recipesByCategoryPage from './recipes-by-category.jpg';
+import allRecipesPage from './img/all-recipes-page.jpg';
+import recipesByCategoryPage from './img/recipes-by-category.jpg';
 
 const useStyles = makeStyles((theme) => ({
   allRecipesImageContainer: {

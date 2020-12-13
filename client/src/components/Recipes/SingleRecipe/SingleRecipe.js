@@ -12,7 +12,7 @@ import AddImages from '../AddImages/AddImages';
 import RemoveImages from '../RemoveImages/RemoveImages';
 import UpdateRecipe from '../UpdateRecipe/UpdateRecipe';
 import NavBarLinks from './NavBarLinks';
-import singleRecipePage from './single-recipe-page.jpg';
+import singleRecipePage from './img/single-recipe-page.jpg';
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {

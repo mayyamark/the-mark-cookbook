@@ -10,8 +10,8 @@ import ListItem from '@material-ui/core/ListItem';
 import NavBar from '../../Common/NavBar/NavBar';
 import CreateCategory from '../CreateCategory/CreateCategory';
 import NavBarLinks from './NavBarLinks';
-import categoriesPage from './categories-page.jpg';
-import noImage from './no-image.png';
+import categoriesPage from './img/categories-page.jpg';
+import noImage from './img/no-image.png';
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
