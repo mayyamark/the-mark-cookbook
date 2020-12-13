@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import LoadingSpinner from '../../../components/Common/LoadingSpinner/LoadingSpinner';
 import SingleRecipe from '../../../components/Recipes/SingleRecipe/SingleRecipe';
 
 const SingleRecipeContainer = () => {
@@ -151,7 +152,7 @@ const SingleRecipeContainer = () => {
       {recipe.error ? (
         <h4>{recipe.error.message}</h4>
       ) : recipe.loading ? (
-        <h4>Loading...</h4>
+        <LoadingSpinner />
       ) : (
         <SingleRecipe
           recipe={recipe.data.recipe}

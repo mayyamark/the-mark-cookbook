@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import useQueryParams from '../../../custom-hooks/useQueryParams.js';
-import AllRecipes from '../../../components/Recipes/AllRecipes/AllRecipes';
 import { useHistory } from 'react-router-dom';
+import useQueryParams from '../../../custom-hooks/useQueryParams.js';
+import LoadingSpinner from '../../../components/Common/LoadingSpinner/LoadingSpinner';
+import AllRecipes from '../../../components/Recipes/AllRecipes/AllRecipes';
 
 const AllRecipesContainer = () => {
   const { category } = useQueryParams();
@@ -156,7 +157,7 @@ const AllRecipesContainer = () => {
       {recipes.error ? (
         <h4>{recipes.error.message}</h4>
       ) : recipes.loading ? (
-        <h4>Loading...</h4>
+        <LoadingSpinner />
       ) : (
         <AllRecipes
           recipes={recipes.data.recipes}

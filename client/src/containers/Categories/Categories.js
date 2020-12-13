@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import LoadingSpinner from '../../components/Common/LoadingSpinner/LoadingSpinner';
 import Categories from '../../components/Categories/Categories/Categories';
 
 const CategoriesContainer = () => {
@@ -61,7 +62,7 @@ const CategoriesContainer = () => {
       {categories.error ? (
         <h4>{categories.error.message}</h4>
       ) : categories.loading ? (
-        <h4>Loading...</h4>
+        <LoadingSpinner />
       ) : (
         <Categories categories={categories.data} createCategory={handleCreateCategory} />
       )}

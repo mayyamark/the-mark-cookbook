@@ -63,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     zIndex: '12',
-    // color: '#FFFFFF',
     marginRight: 'auto',
     marginLeft: 'auto',
     width: '100%',
