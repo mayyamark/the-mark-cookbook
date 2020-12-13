@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import 'moment/locale/bg';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
@@ -12,7 +13,7 @@ import RemoveImages from '../RemoveImages/RemoveImages';
 import UpdateRecipe from '../UpdateRecipe/UpdateRecipe';
 import NavBarLinks from './NavBarLinks';
 import singleRecipePage from './single-recipe-page.jpg';
-import 'moment/locale/bg';
+
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
     height: '60vh',

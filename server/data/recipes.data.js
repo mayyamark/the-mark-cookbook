@@ -1,16 +1,15 @@
 import pool from './pool.js';
 
 const getAll = async () => {
-  const availableRecipesSql = `
+  const recipesSql = `
     SELECT r.recipeID AS 'recipeID', r.name AS 'recipeName', t.category, r.date AS 'addDate', isDeleted
     FROM recipes r
     JOIN categories t ON r.categoryID = t.categoryID
-    WHERE isDeleted = 0
     ORDER BY r.recipeID ASC;
   `;
 
-  const availableRecipesData = await pool.query(availableRecipesSql);
-  const availableRecipesWithImgs = await Promise.all(availableRecipesData.map(async (recipe) => {
+  const recipesData = await pool.query(recipesSql);
+  const recipesWithImgs = await Promise.all(recipesData.map(async (recipe) => {
     const { recipeID } = recipe;
 
     const imagesSql = `
@@ -24,30 +23,7 @@ const getAll = async () => {
     return { ...recipe, images: imagesData };
   }));
 
-  const deletedRecipesSql = `
-    SELECT r.recipeID AS 'recipeID', r.name AS 'recipeName', t.category, r.date AS 'addDate', isDeleted
-    FROM recipes r
-    JOIN categories t ON r.categoryID = t.categoryID
-    WHERE isDeleted = 1
-    ORDER BY r.recipeID ASC;
-  `;
-
-  const deletedRecipesData = await pool.query(deletedRecipesSql);
-  const deletedRecipesWithImgs = await Promise.all(deletedRecipesData.map(async (recipe) => {
-    const { recipeID } = recipe;
-
-    const imagesSql = `
-      SELECT imageID AS imageID, imageName, date AS 'addDate'
-      FROM images
-      WHERE recipeID = ?
-    `;
-
-    const imagesData = await pool.query(imagesSql, [recipeID]);
-
-    return { ...recipe, images: imagesData };
-  }));
-
-  return { available: availableRecipesWithImgs, deleted: deletedRecipesWithImgs };
+  return recipesWithImgs;
 };
 
 const searchBy = async (
