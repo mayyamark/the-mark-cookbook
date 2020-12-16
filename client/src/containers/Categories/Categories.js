@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import LoadingSpinner from '../../components/Common/LoadingSpinner/LoadingSpinner';
-import Categories from '../../components/Categories/Categories/Categories';
+import Categories from '../../components/Categories/Categories';
 
 const CategoriesContainer = () => {
   const [categories, setCategories] = useState({

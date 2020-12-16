@@ -112,7 +112,6 @@ const NavBarLinks = (props) => {
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
         <Tooltip
-          id="instagram-facebook"
           title="Виж всички рецепти, независимо от категорията!"
           placement={window.innerWidth > 959 ? 'top' : 'left'}
           classes={{ tooltip: classes.tooltip }}
@@ -125,7 +124,6 @@ const NavBarLinks = (props) => {
       </ListItem>
       <ListItem className={classes.listItem}>
         <Tooltip
-          id="instagram-facebook"
           title="Не намираш тази, която търсиш? Създай я!"
           placement={window.innerWidth > 959 ? 'top' : 'left'}
           classes={{ tooltip: classes.tooltip }}
