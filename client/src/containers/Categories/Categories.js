@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import LoadingSpinner from '../../components/Common/LoadingSpinner/LoadingSpinner';
-import Categories from '../../components/Categories/Categories';
+import Categories from '../../components/Categories/Categories/Categories';
+import CreateCategory from '../../components/Categories/CreateCategory/CreateCategory';
 
-const CategoriesContainer = () => {
+const CategoriesContainer = ({ isCreating }) => {
+  const history = useHistory();
+
   const [categories, setCategories] = useState({
     loading: true,
     data: null,
@@ -47,9 +52,13 @@ const CategoriesContainer = () => {
         }
       })
       .then((result) => {
-        const categoriesCopy = { ...categories };
-        categoriesCopy.data.push(result);
-        setCategories(categoriesCopy);
+        Swal.fire({
+          icon: 'success',
+          title: `Категорията '${categoryData.categoryName}' беше създадена!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        history.push('/categories');
       })
       .catch((error) => {
         setCategories({ loading: false, data: null, error: error });
@@ -64,7 +73,7 @@ const CategoriesContainer = () => {
       ) : categories.loading ? (
         <LoadingSpinner />
       ) : (
-        <Categories categories={categories.data} createCategory={handleCreateCategory} />
+        isCreating ? <CreateCategory sendCategory={handleCreateCategory} />: <Categories categories={categories.data} />
       )}
     </>
   );

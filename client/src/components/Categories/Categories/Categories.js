@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,9 +7,8 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import NavBar from '../Common/NavBar/NavBar';
+import NavBar from '../../Common/NavBar/NavBar';
 import NavBarLinks from './NavBarLinks';
-import sendCategory from './utils/sendCategory';
 import categoriesPage from './img/categories-page.jpg';
 import noImage from './img/no-image.png';
 
@@ -106,13 +105,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Categories = ({ categories, createCategory }) => {
+const Categories = ({ categories }) => {
   const classes = useStyles();
-  const [creating, setCreating] = useState(false);
-
-  if (creating) {
-    sendCategory(createCategory, setCreating);
-  }
 
   return (
     <React.Fragment>
@@ -122,9 +116,7 @@ const Categories = ({ categories, createCategory }) => {
         brandLink="http://localhost:3000/home"
         fixed
         rightLinks={
-          <NavBarLinks
-            openCreateWindow={() => setCreating((prevState) => !prevState)}
-          />
+          <NavBarLinks />
         }
         changeColorOnScroll={{
           height: 240,

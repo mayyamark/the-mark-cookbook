@@ -106,31 +106,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBarLinks = (props) => {
-  const { openCreateWindow } = props;
   const classes = useStyles();
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
         <Tooltip
-          title="Виж всички рецепти, независимо от категорията!"
+          title="Върни се обратно към всички категории!"
           placement={window.innerWidth > 959 ? 'top' : 'left'}
           classes={{ tooltip: classes.tooltip }}
         >
-          <Button href="http://localhost:3000/recipes" className={classes.navLink}>
+          <Button href="http://localhost:3000/categories" className={classes.navLink}>
             <i className="fas fa-utensils" style={{ marginRight: '5px' }} />
-            Всички рецепти
-          </Button>
-        </Tooltip>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Tooltip
-          title="Не намираш тази, която търсиш? Създай я!"
-          placement={window.innerWidth > 959 ? 'top' : 'left'}
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <Button onClick={openCreateWindow} className={classes.navLink}>
-            <i className="fas fa-pencil-alt" style={{ marginRight: '5px' }} />
-            Нова категория
+            Всички категории
           </Button>
         </Tooltip>
       </ListItem>
