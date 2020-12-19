@@ -105,8 +105,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NavBarLinks = (props) => {
-  // const { openCreateWindow } = props;
+const NavBarLinks = () => {
   const classes = useStyles();
   return (
     <List className={classes.list}>

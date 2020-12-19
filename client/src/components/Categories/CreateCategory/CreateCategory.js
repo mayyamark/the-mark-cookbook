@@ -144,7 +144,6 @@ const CreateCategory = ({ sendCategory }) => {
     const { value } = ev.target;
 
     const updatedForm = { ...form };
-    console.log(updatedForm);
 
     updatedForm.value = value;
     updatedForm.touched = true;

@@ -139,65 +139,67 @@ const SingleRecipe = ({
   const [removingImages, setRemovingImages] = useState(false);
 
   return (
-    <>
-      {updating ? (
-        <UpdateRecipe
-          recipe={recipe}
-          categories={categories}
-          measures={measures}
-          sendRecipe={updateRecipe}
-        />
-      ) : addingImages ? (
-        <AddImages sendImages={addImages} close={setAddingImages} />
-      ) : removingImages ? (
-        <RemoveImages
-          recipeImages={images}
-          removeImages={removeImages}
-          close={setRemovingImages}
-        />
-      ) : (
-        <React.Fragment>
-          <NavBar
-            color="transparent"
-            brand="The Mark Cookbook."
-            brandLink="http://localhost:3000/home"
-            fixed
-            rightLinks={
-              <NavBarLinks
-                category={category}
-                openUpdateWindow={() => setUpdating((prevState) => !prevState)}
-                openAddImagesWindow={() =>
-                  setAddingImages((prevState) => !prevState)
-                }
-                imagesLength={recipe.images.length}
-                openRemoveImagesWindow={() =>
-                  setRemovingImages((prevState) => !prevState)
-                }
-              />
+    <React.Fragment>
+      <NavBar
+        color="transparent"
+        brand="The Mark Cookbook."
+        brandLink="http://localhost:3000/home"
+        fixed
+        rightLinks={
+          <NavBarLinks
+            category={category}
+            openUpdateWindow={() => setUpdating((prevState) => !prevState)}
+            openAddImagesWindow={() =>
+              setAddingImages((prevState) => !prevState)
             }
-            changeColorOnScroll={{
-              height: 240,
-              color: 'white',
-            }}
+            imagesLength={recipe.images.length}
+            openRemoveImagesWindow={() =>
+              setRemovingImages((prevState) => !prevState)
+            }
           />
-          <div className={classes.imageContainer}>
-            <Grid container>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={'auto'}
-                className={classes.titleContainer}
-              >
-                <h1 className={classes.title}>{recipeName}</h1>
-              </Grid>
-            </Grid>
-          </div>
-          <Container style={{ padding: '0' }}>
-            <Box my={2}>
-              <div className={classNames(classes.main, classes.mainRaised)}>
-                <div className={classes.container}>
-                  {isDeleted ? <p className={classes.hidden}>РЕЦЕПТАТА Е СКРИТА!</p> : null}
+        }
+        changeColorOnScroll={{
+          height: 240,
+          color: 'white',
+        }}
+      />
+      <div className={classes.imageContainer}>
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={'auto'}
+            className={classes.titleContainer}
+          >
+            <h1 className={classes.title}>{recipeName}</h1>
+          </Grid>
+        </Grid>
+      </div>
+      <Container style={{ padding: '0' }}>
+        <Box my={2}>
+          <div className={classNames(classes.main, classes.mainRaised)}>
+            <div className={classes.container}>
+              {updating ? (
+                <UpdateRecipe
+                  recipe={recipe}
+                  categories={categories}
+                  measures={measures}
+                  sendRecipe={updateRecipe}
+                />
+              ) : addingImages ? (
+                <AddImages sendImages={addImages} close={setAddingImages} />
+              ) : removingImages ? (
+                <RemoveImages
+                  recipeImages={images}
+                  removeImages={removeImages}
+                  close={setRemovingImages}
+                />
+              ) : (
+                <>
+                  {isDeleted ? (
+                    <p className={classes.hidden}>РЕЦЕПТАТА Е СКРИТА!</p>
+                  ) : null}
                   <div>
                     <div className={classes.smallContainer}>
                       <h2 className={classes.subtitle}>Необходими продукти:</h2>
@@ -214,16 +216,19 @@ const SingleRecipe = ({
                     <h2 className={classes.subtitle}>Инструкции:</h2>
                     <p style={{ padding: '0 5%' }}>{instructions}</p>
                   </div>
-                  {images.length > 0 && <Carousel className={classes.carousel} images={images} />}
-                  <p className={classes.date}>{`Добавена на: ${moment(new Date(addDate)).format('ll')} г.`}</p>
-
-                </div>
-              </div>
-            </Box>
-          </Container>
-        </React.Fragment>
-      )}
-    </>
+                  {images.length > 0 && (
+                    <Carousel className={classes.carousel} images={images} />
+                  )}
+                  <p className={classes.date}>{`Добавена на: ${moment(
+                    new Date(addDate),
+                  ).format('ll')} г.`}</p>
+                </>
+              )}
+            </div>
+          </div>
+        </Box>
+      </Container>
+    </React.Fragment>
   );
 };
 

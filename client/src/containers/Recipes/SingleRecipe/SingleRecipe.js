@@ -85,7 +85,7 @@ const SingleRecipeContainer = () => {
       })
       .then((result) => {
         const recipeCopy = { ...recipe };
-        recipeCopy.data.recipe.images = [...recipeCopy.data.images, ...result]; // cant find new photos
+        recipeCopy.data.recipe.images = [...recipeCopy.data.recipe.images, ...result]; // cant find new photos
         recipeCopy.loading = false;
         setRecipe(recipeCopy);
       })
