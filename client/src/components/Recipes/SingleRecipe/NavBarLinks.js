@@ -106,6 +106,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '5px',
   },
   dropdownLink: {
+    width: '100%',
     '&,&:hover,&:focus': {
       color: 'inherit',
       textDecoration: 'none',
@@ -142,37 +143,34 @@ const NavBarLinks = (props) => {
         </Tooltip>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <ListItem className={classes.listItem}>
-          <Dropdown
-            noLiPadding
-            buttonText="Настройки"
-            buttonProps={{
-              className: classes.navLink,
-              color: 'default',
-            }}
-            buttonIcon={SettingsIcon}
-            dropdownList={[
+        <Dropdown
+          noLiPadding
+          buttonText="Настройки"
+          buttonProps={{
+            className: classes.navLink,
+            color: 'default',
+          }}
+          buttonIcon={SettingsIcon}
+          dropdownList={[
+            <Button onClick={openUpdateWindow} className={classes.dropdownLink}>
+              Промени рецептата
+            </Button>,
+            <Button
+              onClick={openAddImagesWindow}
+              className={classes.dropdownLink}
+            >
+              Добави снимки
+            </Button>,
+            imagesLength > 0 && (
               <Button
-                onClick={openUpdateWindow}
-                className={classes.dropdownLink}
-              >
-                Промени рецептата
-              </Button>,
-              <Button
-                onClick={openAddImagesWindow}
-                className={classes.dropdownLink}
-              >
-                Добави снимки
-              </Button>,
-              (imagesLength > 0 && <Button
                 onClick={openRemoveImagesWindow}
                 className={classes.dropdownLink}
               >
                 Премахни снимки
-              </Button>),
-            ]}
-          />
-        </ListItem>
+              </Button>
+            ),
+          ]}
+        />
       </ListItem>
     </List>
   );
