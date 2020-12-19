@@ -13,7 +13,8 @@ const App = () => {
         <Route path="/home" component={Home} />
         <Route path="/categories" component={() => <Categories isCreating={false} />} />
         <Route path="/create-category" component={() => <Categories isCreating={true} />} />
-        <Route path="/recipes" component={AllRecipes} />
+        <Route path="/recipes" component={() => <AllRecipes isCreating={false} />} />
+        <Route path="/create-recipe" component={() => <AllRecipes isCreating={true} />} />
         <Route path="/recipe/:recipeID" component={SingleRecipe} />
         <Route path="*" component={Home} />
       </Switch>

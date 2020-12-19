@@ -4,9 +4,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
-import InputBase from '@material-ui/core/InputBase';
-import { fade } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -106,31 +103,6 @@ const useStyles = makeStyles((theme) => ({
   marginRight5: {
     marginRight: '5px',
   },
-  search: {
-    marginTop: '8px',
-    marginRight: '3px',
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.3),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   inputRoot: {
     color: 'inherit',
   },
@@ -148,70 +120,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NavBarLinks = (props) => {
-  const { search, openCreateWindow, hasCategory } = props;
+const NavBarLinks = () => {
   const classes = useStyles();
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            onChange={search}
-            placeholder="Потърси..."
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </div>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        {hasCategory ? (
-          <Tooltip
-            title="Виж всички рецепти, независимо от категорията!"
-            placement={window.innerWidth > 959 ? 'top' : 'left'}
-            classes={{ tooltip: classes.tooltip }}
-          >
-            <Button
-              href="http://localhost:3000/recipes"
-              className={classes.navLink}
-            >
-              <i className="fas fa-utensils" style={{ marginRight: '5px' }} />
-              Всички рецепти
-            </Button>
-          </Tooltip>
-        ) : (
-          <Tooltip
-            title="Виж отново всички категории!"
-            placement={window.innerWidth > 959 ? 'top' : 'left'}
-            classes={{ tooltip: classes.tooltip }}
-          >
-            <Button
-              href="http://localhost:3000/categories"
-              className={classes.navLink}
-            >
-              <i className="fas fa-utensils" style={{ marginRight: '5px' }} />
-              Всички категории
-            </Button>
-          </Tooltip>
-        )}
-      </ListItem>
-      <ListItem className={classes.listItem}>
         <Tooltip
-          title="Не намираш тази, която търсиш? Създай я!"
+          title="Виж всички рецепти, независимо от категорията!"
           placement={window.innerWidth > 959 ? 'top' : 'left'}
           classes={{ tooltip: classes.tooltip }}
         >
           <Button
-            href="http://localhost:3000/create-recipe"
+            href="http://localhost:3000/recipes"
             className={classes.navLink}
           >
-            <i className="fas fa-pencil-alt" style={{ marginRight: '5px' }} />
-            Нова рецепта
+            <i className="fas fa-utensils" style={{ marginRight: '5px' }} />
+            Всички рецепти
+          </Button>
+        </Tooltip>
+      </ListItem>
+
+      <ListItem className={classes.listItem}>
+        <Tooltip
+          title="Виж отново всички категории!"
+          placement={window.innerWidth > 959 ? 'top' : 'left'}
+          classes={{ tooltip: classes.tooltip }}
+        >
+          <Button
+            href="http://localhost:3000/categories"
+            className={classes.navLink}
+          >
+            <i className="fas fa-utensils" style={{ marginRight: '5px' }} />
+            Всички категории
           </Button>
         </Tooltip>
       </ListItem>

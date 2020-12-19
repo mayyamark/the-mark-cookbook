@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import useQueryParams from '../../../custom-hooks/useQueryParams.js';
 import NavBar from '../../Common/NavBar/NavBar';
-import CreateRecipe from '../CreateRecipe/CreateRecipe';
 import AllRecipesview from './AllRecipesView';
 import NavBarLinks from './NavBarLinks';
 import allRecipesPage from './img/all-recipes-page.jpg';
@@ -101,7 +100,6 @@ const AllRecipes = ({ recipes, categories, measures, createRecipe }) => {
 
   const classes = useStyles();
 
-  const [creating, setCreating] = useState(false);
   const [recipesData, setRecipesData] = useState(recipes);
 
   const handleChange = (ev) => {
@@ -125,73 +123,62 @@ const AllRecipes = ({ recipes, categories, measures, createRecipe }) => {
   };
 
   return (
-    <>
-      {creating ? (
-        <CreateRecipe
-          categories={categories}
-          measures={measures}
-          sendRecipe={createRecipe}
-        />
-      ) : (
-        <React.Fragment>
-          <NavBar
-            color="transparent"
-            brand="The Mark Cookbook."
-            brandLink="http://localhost:3000/home"
-            fixed
-            rightLinks={
-              <NavBarLinks
-                search={handleChange}
-                hasCategory={category !== undefined ? true : false}
-                openCreateWindow={() => setCreating((prevState) => !prevState)}
-              />
-            }
-            changeColorOnScroll={{
-              height: 240,
-              color: 'white',
-            }}
+    <React.Fragment>
+      <NavBar
+        color="transparent"
+        brand="The Mark Cookbook."
+        brandLink="http://localhost:3000/home"
+        fixed
+        rightLinks={
+          <NavBarLinks
+            search={handleChange}
+            hasCategory={category !== undefined ? true : false}
           />
-          <div
-            className={
-              !category
-                ? classes.allRecipesImageContainer
-                : classes.recipesByCategoryImageContainer
-            }
+        }
+        changeColorOnScroll={{
+          height: 240,
+          color: 'white',
+        }}
+      />
+      <div
+        className={
+          !category
+            ? classes.allRecipesImageContainer
+            : classes.recipesByCategoryImageContainer
+        }
+      >
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={'auto'}
+            className={classes.titleContainer}
           >
-            <Grid container>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={'auto'}
-                className={classes.titleContainer}
-              >
-                <h1 className={classes.title}>
-                  {!category
-                    ? 'Всички рецепти'
-                    : `${category
-                      .substring(0, 1)
-                      .toUpperCase()}${category.substring(1)}`}
-                </h1>
+            <h1 className={classes.title}>
+              {!category
+                ? 'Всички рецепти'
+                : `${category
+                  .substring(0, 1)
+                  .toUpperCase()}${category.substring(1)}`}
+            </h1>
+          </Grid>
+        </Grid>
+      </div>
+      <Container style={{ padding: '0' }}>
+        <Box my={2}>
+          <div className={classNames(classes.main, classes.mainRaised)}>
+            <div className={classes.container}>
+              <Grid container>
+                {recipesData.map((recipe) => (
+                  <AllRecipesview key={recipe.recipeID} recipe={recipe} />
+                ))}
               </Grid>
-            </Grid>
+            </div>
           </div>
-          <Container style={{ padding: '0' }}>
-            <Box my={2}>
-              <div className={classNames(classes.main, classes.mainRaised)}>
-                <div className={classes.container}>
-                  <Grid container>
-                    {recipesData.map((recipe) => (
-                      <AllRecipesview key={recipe.recipeID} recipe={recipe} />
-                    ))}
-                  </Grid>
-                </div>
-              </div>
-            </Box>
-          </Container>
-        </React.Fragment>
-      )}
-    </>
+        </Box>
+      </Container>
+    </React.Fragment>
   );
 };
 
