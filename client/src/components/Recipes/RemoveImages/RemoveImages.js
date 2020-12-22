@@ -6,8 +6,6 @@ import {
 } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 const theme = createMuiTheme({
   palette: {
@@ -55,6 +53,18 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginRight: '3px',
+  },
+  deleteBtn: {
+    color: '#f50057',
+    border: '1px solid #f50057',
+    backgroundColor: 'white',
+    borderRadius: '6px',
+    padding: '5px',
+    fontSize: '11pt',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(245, 0, 87, 0.04)',
+    },
   },
 }));
 
@@ -106,25 +116,25 @@ const RemoveImages = ({ recipeImages, removeImages, close }) => {
                   src={`http://localhost:5000/images/${image.imageName}`}
                   alt="image"
                 />
-                <Button
-                  color="secondary"
-                  variant="outlined"
+                <button
+                  className={classes.deleteBtn}
                   id={image.imageID}
                   onClick={handleImageChange}
                 >
                   Премахни
-                </Button>
+                </button>
               </Grid>
             ))}
           </Grid>
 
           <Button
+            type="submit"
             variant="contained"
             color="primary"
             size="large"
             className={classes.sendButton}
             disabled={!imagesIDs.length}
-            onClick={remove}
+            // onClick={remove}
           >
             Запази промените
           </Button>

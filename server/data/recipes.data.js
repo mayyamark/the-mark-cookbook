@@ -225,7 +225,8 @@ const update = async (recipeID, recipeName, category, instructions, ingredients,
         WHERE recipeID = ?;
       `;
 
-      await pool.query(updateRecipeIsDeletedSql, [recipeID, isDeleted]);
+      const a = await pool.query(updateRecipeIsDeletedSql, [recipeID, isDeleted]);
+      console.log(a);
     }
     if (ingredients) {
       await Promise.all(
@@ -286,6 +287,7 @@ const update = async (recipeID, recipeName, category, instructions, ingredients,
           }
         }));
     }
+
     return await getById(recipeID);
   } catch (error) {
     console.log(error);

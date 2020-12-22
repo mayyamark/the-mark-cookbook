@@ -142,12 +142,13 @@ const AddImages = ({ sendImages, close }) => {
           <div className={classes.buttonContainer} >
             {files.length > 0 && (
               <Button
+                type="submit"
                 variant="contained"
                 color="primary"
                 className={classes.sendButton}
                 size="large"
                 disabled={!files}
-                onClick={send}
+                // onClick={send}
               >
                 Изпрати
               </Button>

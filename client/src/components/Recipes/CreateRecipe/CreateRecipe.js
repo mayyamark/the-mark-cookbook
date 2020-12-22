@@ -18,7 +18,6 @@ import ListItem from '@material-ui/core/ListItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Tooltip from '@material-ui/core/Tooltip';
 import NavBar from '../../Common/NavBar/NavBar';
@@ -156,6 +155,18 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid silver',
     borderRadius: '6px',
   },
+  deleteBtn: {
+    color: '#f50057',
+    border: '1px solid #f50057',
+    backgroundColor: 'white',
+    borderRadius: '6px',
+    padding: '5px',
+    fontSize: '11pt',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(245, 0, 87, 0.04)',
+    },
+  },
 }));
 
 const CreateRecipe = ({ categories, measures, createRecipe }) => {
@@ -263,11 +274,14 @@ const CreateRecipe = ({ categories, measures, createRecipe }) => {
   };
 
   const removeIngredient = (ev) => {
+    console.log(ev.target);
     ev.preventDefault();
 
     const { id } = ev.target;
+    console.log(id);
     const updatedIngredients = { ...form['ingredients'] };
     updatedIngredients.value.splice(id, 1);
+    console.log(updatedIngredients);
 
     const updatedForm = { ...form, ['ingredients']: updatedIngredients };
     setForm(updatedForm);
@@ -447,15 +461,12 @@ const CreateRecipe = ({ categories, measures, createRecipe }) => {
                             }
                             classes={{ tooltip: classes.tooltip }}
                           >
-                            <IconButton
+                            <button
+                              className={classes.deleteBtn}
                               id={index.toString()}
-                              variant="outlined"
-                              fontSize="large"
-                              color="secondary"
                               onClick={(ev) => removeIngredient(ev)}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
+                            >Изтрий
+                            </button>
                           </Tooltip>
                         </ListItem>
                       ))}
