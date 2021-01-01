@@ -10,7 +10,7 @@ const AllRecipesContainer = ({ isCreating }) => {
   const history = useHistory();
 
   const [recipes, setRecipes] = useState({
-    loading: true,
+    loading: null,
     data: { recipes: null, categories: null, measures: null },
     error: null,
   });
