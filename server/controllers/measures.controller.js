@@ -1,4 +1,5 @@
 import express from 'express';
+import authMiddleware from '../middlewares/auth-middleware.js';
 import measuresData from '../data/measures.data.js';
 import measuresService from '../services/measures.service.js';
 import serviceErrors from '../services/service.errors.js';
@@ -6,6 +7,7 @@ import bodyValidator from '../middlewares/body-validator.js';
 import createMeasureSchema from '../validators/create-measure.schema.js';
 
 const measuresController = express.Router();
+measuresController.use(authMiddleware);
 
 measuresController.get('/', async (req, res) => {
 

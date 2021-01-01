@@ -2,19 +2,26 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
+import passport from 'passport';
+import jwtStrategy from './auth/strategy.js';
 import { PORT } from './config.js';
 import addVersionHeader from './middlewares/version-header-adder.js';
+import authController from './controllers/auth.controller.js';
 import recipesController from './controllers/recipes.controller.js';
 import categoriesController from './controllers/categories.controller.js';
 import measuresController from './controllers/measures.controller.js';
 
 const app = express();
 
+passport.use(jwtStrategy);
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(addVersionHeader);
+app.use(passport.initialize());
 
+app.use('/auth', authController);
 app.use('/recipes', recipesController);
 app.use('/categories', categoriesController);
 app.use('/measures', measuresController);

@@ -1,4 +1,5 @@
 import express from 'express';
+import authMiddleware from '../middlewares/auth-middleware.js';
 import imagesController from './images.controller.js';
 import recipesData from '../data/recipes.data.js';
 import serviceErrors from '../services/service.errors.js';
@@ -8,7 +9,7 @@ import createRecipeSchema from '../validators/create-recipe.schema.js';
 import updateRecipeSchema from '../validators/update-recipe.schema.js';
 
 const recipesController = express.Router();
-recipesController.use(imagesController);
+recipesController.use(authMiddleware, imagesController);
 
 recipesController.get('/', async (req, res) => {
   const { name, category, order } = req.query;

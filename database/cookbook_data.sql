@@ -1,6 +1,9 @@
 START TRANSACTION;
 USE `cookbook` ;
 
+INSERT INTO `users` (`userID`, `username`, `password`) VALUES
+(1, 'admin', '$2b$10$Ub9V/Qx/jJn7F38HTRtwR.XlPsQ2Cjm.pOnJ15eKmYMJ20GsCyFaK');
+
 INSERT INTO `categories` (categoryID, category) VALUES
 (1, 'предястия'),
 (2, 'десерти'),

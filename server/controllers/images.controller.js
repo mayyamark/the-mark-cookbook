@@ -1,12 +1,14 @@
 import express from 'express';
 import multer from 'multer';
 import storage from './../storage.js';
+import authMiddleware from '../middlewares/auth-middleware.js';
 import imagesService from '../services/images.services.js';
 import serviceErrors from '../services/service.errors.js';
 import recipesData from '../data/recipes.data.js';
 import imagesData from '../data/images.data.js';
 
 const imagesController = express.Router();
+imagesController.use(authMiddleware);
 
 imagesController.post(
   '/:recipeID/images',
