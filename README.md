@@ -28,7 +28,7 @@ npm run start:dev
 ```
 **Now my Express server is listening for requests.**
 
-## Step III:
+## Step IV:
 Open the Terminal in the client folder and type the following commands:
 ```
 npm i
@@ -36,4 +36,4 @@ npm start
 ```
 This will run my React application.
 
-## Step IV: Enjoy!
+## Step V: Enjoy!
