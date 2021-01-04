@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { getToken } from '../../auth/ManageToken.js';
 import LoadingSpinner from '../../components/Common/LoadingSpinner/LoadingSpinner';
 import Categories from '../../components/Categories/Categories/Categories';
 import CreateCategory from '../../components/Categories/CreateCategory/CreateCategory';
@@ -19,6 +20,9 @@ const CategoriesContainer = ({ isCreating }) => {
 
     fetch('http://localhost:5000/categories', {
       method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${getToken()}`,
+      },
     })
       .then((response) => {
         if (response.status < 400) {
@@ -41,7 +45,10 @@ const CategoriesContainer = ({ isCreating }) => {
 
     fetch('http://localhost:5000/categories', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`,
+      },
       body: JSON.stringify(categoryData),
     })
       .then((response) => {

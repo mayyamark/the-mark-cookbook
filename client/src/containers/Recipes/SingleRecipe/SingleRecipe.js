@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { getToken } from '../../../auth/ManageToken.js';
 import LoadingSpinner from '../../../components/Common/LoadingSpinner/LoadingSpinner';
 import SingleRecipe from '../../../components/Recipes/SingleRecipe/SingleRecipe';
 
@@ -18,6 +19,9 @@ const SingleRecipeContainer = () => {
     Promise.allSettled([
       fetch(`http://localhost:5000/recipes/${recipeID}`, {
         method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${getToken()}`,
+        },
       })
         .then((response) => {
           if (response.status < 400) {
@@ -34,6 +38,9 @@ const SingleRecipeContainer = () => {
 
       fetch('http://localhost:5000/categories', {
         method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${getToken()}`,
+        },
       })
         .then((response) => {
           if (response.status < 400) {
@@ -49,6 +56,9 @@ const SingleRecipeContainer = () => {
         }),
       fetch('http://localhost:5000/measures', {
         method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${getToken()}`,
+        },
       })
         .then((response) => {
           if (response.status < 400) {
@@ -74,6 +84,9 @@ const SingleRecipeContainer = () => {
 
     fetch(`http://localhost:5000/recipes/${recipeID}/images`, {
       method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${getToken()}`,
+      },
       body: filesData,
     })
       .then((response) => {
@@ -99,7 +112,10 @@ const SingleRecipeContainer = () => {
 
     fetch(`http://localhost:5000/recipes/${recipeID}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`,
+      },
       body: JSON.stringify(recipeData),
     })
       .then((response) => {
@@ -125,7 +141,10 @@ const SingleRecipeContainer = () => {
 
     fetch(`http://localhost:5000/recipes/${recipeID}/images`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`,
+      },
       body: JSON.stringify(imagesIDs),
     })
       .then((response) => {

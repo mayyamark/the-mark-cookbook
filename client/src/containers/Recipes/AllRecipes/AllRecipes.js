@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { getToken } from '../../../auth/ManageToken.js';
 import useQueryParams from '../../../custom-hooks/useQueryParams.js';
 import LoadingSpinner from '../../../components/Common/LoadingSpinner/LoadingSpinner';
 import AllRecipes from '../../../components/Recipes/AllRecipes/AllRecipes';
@@ -21,10 +22,14 @@ const AllRecipesContainer = ({ isCreating }) => {
 
   if (!isCreating) {
     useEffect(() => {
+      console.log('fetch');
       setRecipes({ loading: true, data: null, error: null });
 
       fetch(recipesFetchUrl, {
         method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${getToken()}`,
+        },
       })
         .then((response) => {
           if (response.status < 400) {
@@ -48,11 +53,16 @@ const AllRecipesContainer = ({ isCreating }) => {
 
   if (isCreating) {
     useEffect(() => {
+      console.log('fetch');
+
       setRecipes({ loading: true, data: null, error: null });
 
       Promise.allSettled([
         fetch('http://localhost:5000/categories', {
           method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${getToken()}`,
+          },
         })
           .then((response) => {
             if (response.status < 400) {
@@ -68,6 +78,9 @@ const AllRecipesContainer = ({ isCreating }) => {
           }),
         fetch('http://localhost:5000/measures', {
           method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${getToken()}`,
+          },
         })
           .then((response) => {
             if (response.status < 400) {
@@ -94,7 +107,10 @@ const AllRecipesContainer = ({ isCreating }) => {
 
     fetch('http://localhost:5000/recipes', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Authorization': `Bearer ${getToken()}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(recipeData),
     })
       .then((response) => {
@@ -124,7 +140,7 @@ const AllRecipesContainer = ({ isCreating }) => {
           categories={recipes.data.categories}
           measures={recipes.data.measures}
         />
-      ) : (
+      ) : (recipes.data.recipes &&
         <AllRecipes recipes={recipes.data.recipes} />
       )}
     </>
