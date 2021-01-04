@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     width: '30%',
+    height: '10rem',
   },
   link: {
     opacity: '0.8',
@@ -92,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     textDecoration: 'none',
     marginTop: '3%',
+    marginBottom: '3%',
     fontSize: '1.5rem',
     color: '#3C4858',
     fontWeight: 700,
