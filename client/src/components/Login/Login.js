@@ -9,7 +9,7 @@ import Card from '../Common/Card/Card';
 import CardBody from '../Common/Card/CardBody';
 import CardFooter from '../Common/Card/CardFooter';
 import CustomInput from '../Common/CustomInput/CustomInput';
-import loginPage from './img/login-page.png';
+import loginPage from './img/login-page.jpg';
 
 const useStyles = makeStyles((theme) => ({
   title: {
