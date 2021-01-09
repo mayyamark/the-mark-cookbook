@@ -134,7 +134,7 @@ const AllRecipesContainer = ({ isCreating }) => {
         <h4>{recipes.error.message}</h4>
       ) : recipes.loading ? (
         <LoadingSpinner />
-      ) : isCreating ? (
+      ) : isCreating ? (recipes.data.measures &&
         <CreateRecipe
           createRecipe={handleCreateRecipe}
           categories={recipes.data.categories}
