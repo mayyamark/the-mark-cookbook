@@ -1,18 +1,18 @@
 import dotenv from 'dotenv';
 
-const config = dotenv.config().parsed;
+const config = dotenv.config().parsed || process.env;
 
 const PORT = config.PORT || 5000;
 
 const DB_CONFIG = {
-  host: 'localhost',
+  host: config.DB_HOST || 'localhost',
   port: '3306',
   user: config.DB_USER,
   password: config.DB_PASSWORD,
   database: 'cookbook',
 };
 
-const SECRET_KEY = config.SECRET_KEY;
+const SECRET_KEY = config.SECRET_KEY || '';
 
 const TOKEN_LIFETIME = 60 * 60;
 
