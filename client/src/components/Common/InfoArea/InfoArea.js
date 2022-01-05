@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
   infoArea: {
     maxWidth: '300px',
     margin: '0 auto',
-    padding: '0px',
+    padding: '11px 0',
   },
   iconWrapper: {
     float: 'left',

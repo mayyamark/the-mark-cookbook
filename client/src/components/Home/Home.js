@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#FFFFFF',
     position: 'relative',
     zIndex: '3',
+    minHeight: 350,
   },
   mainRaised: {
     margin: '-60px 30px 0px',

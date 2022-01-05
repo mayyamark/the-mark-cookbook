@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#FFFFFF',
     position: 'relative',
     zIndex: '3',
+    minHeight: 350,
   },
   mainRaised: {
     margin: '-60px 30px 0px',
@@ -81,10 +82,26 @@ const useStyles = makeStyles((theme) => ({
   },
   imagesContainer: {
     marginTop: '1%',
+    [theme.breakpoints.down('xs')]: {
+      '& :not(:first-child)': {
+        display: 'none',
+      },
+    },
+    [theme.breakpoints.down('sm')]: {
+      '& :nth-child(n+3)': {
+        display: 'none',
+      },
+    },
   },
   image: {
     width: '30%',
     height: '10rem',
+    [theme.breakpoints.down('xs')]: {
+      width: '90%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '50%',
+    },
   },
   link: {
     opacity: '0.8',
@@ -97,6 +114,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.5rem',
     color: '#3C4858',
     fontWeight: 700,
+    width: '100%',
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: '2%',
+      paddingRight: '2%',
+    },
     '&:hover': {
       opacity: 1,
       borderRadius: '6px',
@@ -145,7 +167,7 @@ const Categories = ({ categories }) => {
               <List>
                 {categories.map((category) => {
                   return (
-                    <ListItem key={category.categoryID}>
+                    <ListItem key={category.categoryID} style={{ justifyContent: 'space-around' }}>
                       <Link
                         className={classes.link}
                         to={`/recipes?category=${category.category}`}

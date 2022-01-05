@@ -57,7 +57,7 @@ const ProductSection = () => {
           <Grid item xs={12} sm={12} md={4} className={classes.grid}>
             <InfoArea
               title="Първи самостоятелен проект"
-              description="Създадох това приложение веднага след завършването ми на Alpha JavaScript програмата на Telerik Academy. След 3 групови проекта, усвоих солидни знания и сега, без да са необходими инструкции, можеш бързо и лесно да откриеш всичко, което търсиш!"
+              description="Създадох това приложение веднага след завършването ми на Alpha JavaScript програмата на Telerik Academy. След 3 групови проекта, усвоих солидни знания и сега с радост представям първия си самостоятелен проект!"
               icon={EmojiEventsIcon}
               iconColor="#4caf50"
               vertical

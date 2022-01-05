@@ -112,16 +112,16 @@ const NavBarLinks = (props) => {
       <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-facebook"
-          title="Виж проекта в GitLab"
+          title="Виж проекта в GitHub"
           placement={window.innerWidth > 959 ? 'top' : 'left'}
           classes={{ tooltip: classes.tooltip }}
         >
           <Button
-            href="https://gitlab.com/mayya.markova/the-mark-cookbook"
+            href="https://github.com/mayyamark/the-mark-cookbook"
             target="_blank"
             className={classes.navLink}
           >
-            <i className={classes.socialIcons + ' fab fa-gitlab'} />
+            <i className={classes.socialIcons + ' fab fa-github'} />
           </Button>
         </Tooltip>
       </ListItem>

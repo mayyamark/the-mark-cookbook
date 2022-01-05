@@ -7,7 +7,7 @@ import CardBody from '../../Common/Card/CardBody.js';
 import CardFooter from '../../Common/Card/CardFooter.js';
 import mayya from './img/mayya.jpg';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   section: {
     padding: '40px 0',
     textAlign: 'center',
@@ -152,10 +152,10 @@ const AboutMeSection = () => {
                 </Button>
                 <Button
                   className={classes.margin5}
-                  href="https://gitlab.com/mayya.markova"
+                  href="https://github.com/mayyamark"
                   target="_blank"
                 >
-                  <i className={classes.socials + ' fab fa-gitlab'} />
+                  <i className={classes.socials + ' fab fa-github'} />
                 </Button>
                 <Button
                   className={classes.margin5}
