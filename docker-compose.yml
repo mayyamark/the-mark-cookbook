@@ -4,7 +4,9 @@ services:
   mariadb:
     image: mariadb
     container_name: cookbook_mariadb_container
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     environment:
+      LANG: C.UTF-8
       MARIADB_ROOT_PASSWORD: root
     ports:
       - 3306:3306
