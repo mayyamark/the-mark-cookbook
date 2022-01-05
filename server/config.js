@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 const config = dotenv.config().parsed || process.env;
 
-const PORT = config.PORT || 5000;
+const PORT = config.SERVER_PORT || 5000;
 
 const DB_CONFIG = {
   host: config.DB_HOST || 'localhost',
@@ -12,7 +12,7 @@ const DB_CONFIG = {
   database: 'cookbook',
 };
 
-const SECRET_KEY = config.SECRET_KEY || '';
+const SECRET_KEY = config.SERVER_SECRET_KEY || '';
 
 const TOKEN_LIFETIME = 60 * 60;
 
