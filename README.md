@@ -1,39 +1,176 @@
 # The Mark Cookbook
-I am very excited to present you my first personal project!
-This is an application for cooking recipes! Here you can find recipes by a category, or you can search a recipe by its name! You can create new categories and new recipes! You can edit old recipes and to manage their images!
 
-# Used packages
-- **Backend Packages**: express, cors, body-parser, helmet, passport, passport-jwt, bcrypt, multer, mariadb, moment, eslint, nodemon;
+## Project Description
 
-- **Frontend packages**: React, react-dom, react-router-dom, jwt-decode, react-slideshow-image, moment, sweetalert, material-ui, eslint;
+An end-to-end application for cooking lovers, where you can find recipes by a category, or you can search a recipe by its name. You can create new categories and new recipes. You can also edit old recipes and to manage their images!
 
-# Running Guide
-Follow these steps to run our application:
-## Step I:
-**Import the SQL files**- the schemas and the file with dummy data.
+## Tech stack
 
-## Step II:
-To access this application you should have a **environment file** (.env) file  on the root level in the server directory! The structure should be:
+The main technologies that are used in this project are:
 
-- **PORT**: *server listening port*, if no other chosen, the default would be 5000;
-- **DB_USER**: the *username* of your MariaDB account;
-- **DB_PASSWORD**: the *password* of your MariaDB account;
-- **SECRET_KEY**: a string or buffer containing the secret (symmetric) or PEM-encoded public key (asymmetric) for verifying the token's signature;
+- JavaScript:
+  - [React JS](https://reactjs.org/)
+  - [Material UI](https://v4.mui.com/)
+  - [Express JS](https://expressjs.com/)
+  - [Multer](https://github.com/expressjs/multer)
+  - [Passport JS](https://www.passportjs.org/)
+  - [Moment JS](https://momentjs.com/)
+- [MariaDB](https://mariadb.org/)
+- [Docker](https://www.docker.com/)
 
-## Step III:
-Open the Terminal in the server folder and type the following commands:
+## Directory Structure
+
+```bash
+├── client
+│   ├── public
+│   │   ├── index.html
+│   │   └── logo.png
+│   ├── src
+│   │   ├── auth
+│   │   │   └── **/*.js
+│   │   ├── components
+│   │   │   ├── Categories
+│   │   │   │   ├── Categories
+│   │   │   │   │    ├── img
+│   │   │   │   │    │    ├── **/*.jpg
+│   │   │   │   │    │    └── **/*.png
+│   │   │   │   │    └── **/*.js
+│   │   │   │   └── CreateCategory
+│   │   │   │   │    ├── img
+│   │   │   │   │    │    └── **/*.jpg
+│   │   │   │   │    └── **/*.js
+│   │   │   ├── Common
+│   │   │   │   ├── Card
+│   │   │   │   │    └── **/*.js
+│   │   │   │   ├── Carousel
+│   │   │   │   │    ├── **/*.css
+│   │   │   │   │    └── **/*.js
+│   │   │   │   ├── CustomInput
+│   │   │   │   │    └── **/*.js
+│   │   │   │   ├── Dropdown
+│   │   │   │   │    └── **/*.js
+│   │   │   │   ├── InfoArea
+│   │   │   │   │    └── **/*.js
+│   │   │   │   ├── LoadingSpinner
+│   │   │   │   │    ├── **/*.css
+│   │   │   │   │    └── **/*.js
+│   │   │   │   ├── NavBar
+│   │   │   │   │    └── **/*.js
+│   │   │   ├── Home
+│   │   │   │   ├── Sections
+│   │   │   │   │    ├── img
+│   │   │   │   │    │    └── **/*.jpg
+│   │   │   │   │    └── **/*.js
+│   │   │   │   └── **/*.js
+│   │   │   ├── Login
+│   │   │   │   ├── img
+│   │   │   │   │    └── **/*.jpg
+│   │   │   │   └── **/*.js
+│   │   │   └── Recipes
+│   │   │       ├── AddImagws
+│   │   │       │    └── **/*.js
+│   │   │       ├── AllRecipes
+│   │   │       │    ├── img
+│   │   │       │    │    ├── **/*.jpg
+│   │   │       │    │    └── **/*.png
+│   │   │       │    └── **/*.js
+│   │   │       ├── CreateRecipe
+│   │   │       │    ├── img
+│   │   │       │    │    └── **/*.jpg
+│   │   │       │    └── **/*.js
+│   │   │       ├── RemoveImages
+│   │   │       │    └── **/*.js
+│   │   │       ├── SingleRecipe
+│   │   │       │    ├── img
+│   │   │       │    │    └── **/*.jpg
+│   │   │       │    └── **/*.js
+│   │   │       └── UpdateRecipe
+│   │   │            └── **/*.js
+│   │   ├── containers
+│   │   │   ├── Categories
+│   │   │   │   └── **/*.js
+│   │   │   ├── Login
+│   │   │   │   └── **/*.js
+│   │   │   └── Recipes
+│   │   │       ├── AllRecipes
+│   │   │       │   └── **/*.js
+│   │   │       └── SingleRecipe
+│   │   │           └── **/*.js
+│   │   ├── custom-hooks
+│   │   │   └── **/*.js
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── index.css
+│   │   └── index.js
+│   ├── .dockerignore
+│   ├── .eslintrc.js
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   └── README.md
+├── database
+│   └── cookbook_schema.sql
+├── server
+│   ├── auth
+│   │   └── **/*.js
+│   ├── controllers
+│   │   └── **/*.controller.js
+│   ├── data
+│   │   └── **/*.data.js
+│   ├── images
+│   |   ├── **/*.jpg
+│   │   └── **/*.png
+│   ├── moddlewares
+│   │   └── **/*.js
+│   ├── services
+│   │   └── **/*.service.js
+│   ├── validators
+│   │   └── **/*.schema.js
+│   ├── .dockerignore
+│   ├── .eslintrc.js
+│   ├── app.js
+│   ├── config.js
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   └── storage.js
+├── docker-compose.yml
+└── README.md
 ```
-npm i
-npm run start:dev
-```
-**Now my Express server is listening for requests.**
 
-## Step IV:
-Open the Terminal in the client folder and type the following commands:
-```
-npm i
-npm start
-```
-This will run my React application.
+## Running guide
 
-## Step V: Enjoy!
+All you need is [Docker Compose](https://docs.docker.com/compose/). [Click here](https://docs.docker.com/compose/install/#install-compose) to get it.
+
+### Start the application
+
+Open a terminal in the root directory and run these commands:
+
+- Build the services
+
+```sh
+docker-compose build
+```
+
+- Allow Docker to start and run the entire application
+
+```sh
+docker-compose up -d
+```
+
+### Interact with the application
+
+There are a few options:
+
+- Open `http://localhost:3000/` in a browser to see the web application.
+- Open Postman and send a request. See the available endpoints in the readme file in the _server_ directory.
+- Open `http://localhost:8080/` to open [phpMyAdmin](https://www.phpmyadmin.net/). It allows you to handle the administration of MySQL over the Web. The username and the password are pointed in the docker-compose.yml file.
+
+### Tear it down
+
+Open a terminal in the root directory and run this command:
+
+```sh
+docker-compose down --volumes
+```
